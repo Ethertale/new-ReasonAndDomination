@@ -1,0 +1,60 @@
+package io.ethertale.reasonanddominationspringdefenseproject.account.model;
+
+import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
+import io.ethertale.reasonanddominationspringdefenseproject.playerCharacter.model.Hero;
+import jakarta.persistence.*;
+import lombok.*;
+
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Set;
+import java.util.UUID;
+
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@Entity
+@Builder
+@Table(name = "profile")
+public class Profile {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.UUID)
+    private UUID id;
+    @Column(unique = true, nullable = false)
+    private String username;
+    @Column(nullable = false)
+    private String password;
+    @Column(nullable = false)
+    private String email;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountRole role;
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private AccountStatus status;
+    @Column(name = "profile_picture", length = 1000)
+    private String profilePicture;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "profile")
+    private List<Hero> heroes;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
+    private List<ForumPost> posts;
+    @Column(nullable = false)
+    private LocalDateTime createdOn;
+
+    @Override
+    public String toString() {
+        return "Profile{" +
+                "id=" + id +
+                ", password='" + password + '\'' +
+                ", username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", role=" + role +
+                ", status=" + status +
+                ", createdOn=" + createdOn +
+                ", heroes=" + heroes +
+                ", profilePicture='" + profilePicture + '\'' +
+                '}';
+    }
+}

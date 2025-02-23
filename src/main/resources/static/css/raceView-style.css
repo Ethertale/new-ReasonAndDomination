@@ -1,0 +1,19 @@
+.row img {
+    aspect-ratio: 1/1;
+    width: 50%;
+}
+
+.slider{
+    position: relative;
+    width: 100%;
+    margin: auto;
+}
+
+.slider img{
+    width: 100%;
+    display: none;
+}
+
+img.displaySlide {
+    display: block;
+}

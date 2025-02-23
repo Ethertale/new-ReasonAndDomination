@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>Document</title>
+</head>
+<body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
+<nav class="navbar navbar-expand-lg navbar-light bg-light" th:fragment="header">
+    <a class="navbar-brand" href="/home"><img th:src="@{https://i.ibb.co/Yd401Fd/logo-textonly.png}" style="width: 140px" alt=""></a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" href="#">News</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/forum">Forum</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/guides">Guides</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Database
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="/player-lookup">Player Lookup</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/races">Races</a>
+                    <a class="dropdown-item" href="#">Classes</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="/items">Items</a>
+                    <a class="dropdown-item" href="#">Dungeons</a>
+                    <a class="dropdown-item" href="#">Raids</a>
+                    <th:block th:switch="${session.get('user.role')}">
+                        <a th:case="'ADMIN'" class="dropdown-item" href="/database-dar">DaR</a>
+                    </th:block>
+<!--                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">-->
+<!--                        Items-->
+<!--                    </a>-->
+<!--                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">-->
+<!--                    </div>-->
+                </div>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Premium</a>
+            </li>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMore" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    More
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="#">About Us & Contact</a>
+                    <a class="dropdown-item" href="#">Premium</a>
+                </div>
+            </li>
+<!--            <li class="nav-item">-->
+<!--                <a class="nav-link" th:href="@{'/profile/' + ${session.get('user_id')}}">Profile</a>-->
+<!--            </li>-->
+        </ul>
+        <div th:switch="${session}">
+            <a th:case="${session.isEmpty()}" th:href="@{/register}"><button class="btn">Sign Up</button></a>
+            <a class="nav-link text-dark" th:case="*" th:href="@{'/profile/' + ${session.get('SPRING_SECURITY_CONTEXT').authentication.principal.id}}">Profile</a>
+        </div>
+
+    </div>
+</nav>
+
+<footer th:fragment="footer" style="color: white">
+    <p class="text-center">@Ethertale 2025</p>
+</footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>

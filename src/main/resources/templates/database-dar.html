@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
+          integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" th:href="@{css/general.css}">
+    <title>R&D - Data</title>
+</head>
+<body>
+<nav th:replace="~{templates::header}"></nav>
+<div class="container">
+
+    <h1 class="text-center">Database</h1>
+
+    <div id="accordion">
+        <div class="card bg-dark">
+            <div class="card-header" id="races">
+                <h5 class="mb-0">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                        Races
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table text-light">
+                        <thead>
+                        <tr>
+                            <th scope="col">Type</th>
+                            <th scope="col">Desc</th>
+                            <th scope="col">STR</th>
+                            <th scope="col">AGI</th>
+                            <th scope="col">INT</th>
+                            <th scope="col">STM</th>
+                            <th scope="col">SPR</th>
+                        </tr>
+                        </thead>
+                        <tr th:each="race: ${races}">
+                            <td th:text="${race.name}"></td>
+                            <td th:text="${race.description}"></td>
+                            <td th:text="${race.strength}"></td>
+                            <td th:text="${race.agility}"></td>
+                            <td th:text="${race.intellect}"></td>
+                            <td th:text="${race.stamina}"></td>
+                            <td th:text="${race.spirit}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-dark">
+            <div class="card-header" id="dungeonsAndRaids">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                        Dungeons & Raids
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table text-light">
+                        <thead>
+                        <tr>
+                            <th scope="col">Name</th>
+                            <th scope="col">Desc</th>
+                            <th scope="col">Lvl</th>
+                            <th scope="col">Type</th>
+                            <th scope="col">Size</th>
+                        </tr>
+                        </thead>
+                        <tr th:each="dunDar: ${dar}">
+                            <td th:text="${dunDar.name}"></td>
+                            <td th:text="${dunDar.description}"></td>
+                            <td th:text="${dunDar.level}"></td>
+                            <td th:text="${dunDar.dungeonType}"></td>
+                            <td th:text="${dunDar.dungeonSize}"></td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="card bg-dark">
+            <div class="card-header" id="userbase">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                        Userbase
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordion">
+                <div class="card-body">
+                    <table class="table text-light">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Profile Pic</th>
+                            <th scope="col">Username</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Role</th>
+                            <th scope="col">Status</th>
+                        </tr>
+                        <tr th:each="user: ${profiles}">
+                            <td><a th:text="${user.getId()}" th:href="@{/profile/{id}(id=${user.getId()})}"></a></td>
+                            <td>
+                                <div class="container" style="width: 50px; height: 50px">
+                                    <img th:src="${user.getProfilePicture()}" style="width: 50px; height: 100%;" alt="">
+                                </div>
+                            </td>
+                            <td th:text="${user.getUsername()}"></td>
+                            <td th:text="${user.getEmail()}"></td>
+                            <td th:text="${user.getRole()}"></td>
+                            <td th:text="${user.getStatus()}"></td>
+<!--                            TODO Implement select-option for user roles-->
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+        <div class="card bg-dark">
+            <div class="card-header" id="itemCreation">
+                <h5 class="mb-0">
+                    <button class="btn btn-link collapsed" data-toggle="collapse" data-target="#collapseFour" aria-expanded="false" aria-controls="collapseFour">
+                        Item Creation
+                    </button>
+                </h5>
+            </div>
+            <div id="collapseFour" class="collapse" aria-labelledby="headingFour" data-parent="#accordion">
+                <div class="card-body">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12 col-lg-5 text-light">
+                                <h2 class="text-center">Item</h2>
+                                <form th:object="${formItem}" th:method="post" th:action="@{/database-dar/item-create}">
+                                    <div class="form-group">
+                                        <label for="itemWearName">Name:</label>
+                                        <input th:field="*{name}" required type="text" class="form-control" id="itemWearName" placeholder="Name">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="imageLinkWear">Image Link:</label>
+                                        <input th:field="*{imageLink}" type="text" class="form-control" id="imageLinkWear" placeholder="https://link-to-img.com/123!@#">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemTypeWear">Type:</label>
+                                        <select th:field="*{type}" required id="itemTypeWear" class="form-control">
+                                            <option value="BACK">BACK</option>
+                                            <option value="CHEST">CHEST</option>
+                                            <option value="FEET">FEET</option>
+                                            <option value="FINGER">FINGER</option>
+                                            <option value="HANDS">HANDS</option>
+                                            <option value="HEAD">HEAD</option>
+                                            <option value="LEGS">LEGS</option>
+                                            <option value="NECK">NECK</option>
+                                            <option value="SHIELD">SHIELD</option>
+                                            <option value="SHOULDER">SHOULDER</option>
+                                            <option value="TRINKET">TRINKET</option>
+                                            <option value="WAIST">WAIST</option>
+                                            <option value="WRIST">WRIST</option>
+                                            <option value="ONE_HAND">ONE_HAND</option>
+                                            <option value="TWO_HAND">TWO_HAND</option>
+                                            <option value="OFF_HAND">OFF_HAND</option>
+                                            <option value="RANGED">RANGED</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemRarity">Rarity:</label>
+                                        <select th:field="*{rarity}" required id="itemRarity">
+                                            <option value="COMMON">COMMON</option>
+                                            <option value="UNCOMMON">UNCOMMON</option>
+                                            <option value="RARE">RARE</option>
+                                            <option value="EPIC">EPIC</option>
+                                            <option value="LEGENDARY">LEGENDARY</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemDescription">Description:</label>
+                                        <textarea th:field="*{description}" id="itemDescription" cols="30" rows="10"></textarea>
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemArmour">Armour:</label>
+                                        <input th:field="*{armour}" type="number" class="form-control" id="itemArmour">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemStrength">Strength:</label>
+                                        <input th:field="*{strength}" type="number" class="form-control" id="itemStrength">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemAgility">Agility:</label>
+                                        <input th:field="*{agility}" type="number" class="form-control" id="itemAgility">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemIntellect">Intellect:</label>
+                                        <input th:field="*{intellect}" type="number" class="form-control" id="itemIntellect">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemStamina">Stamina:</label>
+                                        <input th:field="*{stamina}" type="number" class="form-control" id="itemStamina">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemSpirit">Spirit:</label>
+                                        <input th:field="*{spirit}" type="number" class="form-control" id="itemSpirit">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemMinDamage">Minimum Damage:</label>
+                                        <input th:field="*{minDamage}" type="number" class="form-control" id="itemMinDamage">
+                                    </div>
+                                    <div class="form-group">
+                                        <label for="itemMaxDamage">Maximum Damage:</label>
+                                        <input th:field="*{maxDamage}" type="number" class="form-control" id="itemMaxDamage">
+                                    </div>
+                                    <button type="submit" class="btn btn-primary">Create Wear</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{templates::footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+        crossorigin="anonymous"></script>
+</body>
+</html>

@@ -1,0 +1,13 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&display=swap');
+
+@font-face {
+    font-family: 'Fha Condensed French';
+    src: url('../fonts/Fhacondensedfrenchnc-YJ7q.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+
+
+h2 {
+    font-family: 'Fha Condensed French', sans-serif;
+}

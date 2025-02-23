@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org"> 
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <title>R&D - The Grand Database</title>
+    <style>
+        * {
+            color: white;
+        }
+        a {
+            color: #d3a862;
+        }
+    </style>
+</head>
+<body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
+<nav th:replace="~{templates::header}"></nav>
+
+<div class="container-fluid pt-5 text-center">
+    <div class="row gx-5 d-flex justify-content-center">
+        <div class="col-12 col-md-4 pb-2 d-flex flex-column border">
+            <div class="container"></div>
+            <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/60/60040-778c63797cf3285b6ce4aa08fc4aece5.jpg" style="width: 50px" alt=""> Latest Forum Posts</h5>
+            <th:block th:each="post: ${forumPosts}">
+                <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()} + ' | ' + ${post.getCreatedOn()}" th:href="@{/forum/posts/{slug}(slug=${post.getSlug()})}"></a></td>
+            </th:block>
+            <a class="text-center" th:href="@{/forum}">explore more posts...</a>
+        </div>
+        <div class="col-2"></div>
+        <div class="col-12 col-md-4 pb-2 d-flex flex-column border">
+            <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/100/100779-6848c4a9a56c3133a2c5d456ad66fadb_tn.jpg" style="width: 50px" alt=""> Latest News</h5>
+            <a href="#">News Post | TIME</a>
+            <a href="#">News Post | TIME</a>
+            <a href="#">News Post | TIME</a>
+            <a href="#">News Post | TIME</a>
+            <a href="#">News Post | TIME</a>
+            <a class="text-center" href="#">explore more news...</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid pt-5 text-center">
+    <h5><img src="https://www.hiveworkshop.com/data/ratory-images/143/143734-c08c6d7416954ee16ae27bc2d2d1ae10_tn.jpg" style="width: 50px  " alt=""> R&D Featured Guides</h5>
+    <div class="container-fluid pt-2 text-center">
+        <div class="row gx-5 d-flex justify-content-center">
+            <div class="col-12 col-md-3 d-flex flex-column border">
+                <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/125/125186-8b39d21082f93a49a0f17cfbfe5d3c20.jpg" style="width: 50px" alt=""> Edisonspire Foundry Guides</h5>
+                <th:block th:each="post: ${edisonspireGuides}">
+                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" href="#"></a></td>
+                </th:block>
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column border">
+                <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/61/61058-a8c677e950f11090d831bab5bfe56e48.jpg" style="width: 50px" alt=""> Geargrind Grotto Guides</h5>
+                <th:block th:each="post: ${geargrindGrottoGuides}">
+                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" href="#"></a></td>
+                </th:block>
+            </div>
+            <div class="col-12 col-md-3 d-flex flex-column border">
+                <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/217/217236-11de84cd036f0fa5fa58fac2865f188f.png" style="width: 50px" alt=""> Arena S3 Guides</h5>
+                <th:block th:each="post: ${arenaS3Guides}">
+                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" href="#"></a></td>
+                </th:block>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{templates::footer}"></footer>
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.14.7/dist/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+</body>
+</html>
