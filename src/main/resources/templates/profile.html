@@ -23,13 +23,8 @@
     <div class="container-fluid p-2">
         <div class="row">
             <div th:if="${user.getId() == principal.getId()}" class="col-12 col-lg-1 bg-secondary container-fluid d-flex justify-content-start flex-column">
-                <a href=""><img width="20" height="20"
-                                src="https://img.icons8.com/fluency-systems-regular/50/guest-male.png"
-                                alt="guest-male"/> Account</a>
-                <a href=""><img width="20" height="20" src="https://img.icons8.com/small/16/picture.png"
-                                alt="picture"/> Profile Picture</a>
-                <a href=""><img width="20" height="20" src="https://img.icons8.com/ios/50/settings--v1.png"
-                                alt="settings--v1"/> Settings</a>
+                <a href="/profile/edit"><img width="20" height="20" src="https://img.icons8.com/small/16/picture.png"
+                                alt="picture"/> Edit</a>
                 <a href="/logout"><img width="20" height="20" src="https://img.icons8.com/ios/50/left--v1.png"
                                        alt="left--v1"/> Log Out</a>
             </div>
@@ -37,7 +32,12 @@
                 <img th:src="${user.getProfilePicture()}" style="width: 20%; max-width: 256px; aspect-ratio: 1/1"
                      alt="">
                 <h3 th:text="${user.username}"></h3>
-                <small><small th:text="${user.getRole()}"></small></small>
+                <small th:if="${user.getRole().name()} == 'USER'" th:text="${user.getRole()}"></small>
+                <small th:if="${user.getRole().name()} == 'ADMIN'" th:text="${user.getRole()}"></small>
+                <small style="color: green" th:if="${user.getRole().name()} == 'TIER_UNCOMMON'" th:text="'UNCOMMON'"></small>
+                <small style="color: royalblue" th:if="${user.getRole().name()} == 'TIER_RARE'" th:text="'RARE'"></small>
+                <small style="color: rebeccapurple" th:if="${user.getRole().name()} == 'TIER_EPIC'" th:text="'EPIC'"></small>
+                <small style="color: darkorange" th:if="${user.getRole().name()} == 'TIER_LEGENDARY'" th:text="'LEGENDARY'"></small>
                 <small th:text="${user.getId()}"></small>
             </div>
         </div>

@@ -5,6 +5,7 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.model.Accoun
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.repo.ProfileRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormRegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -81,6 +82,15 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         return profileRepo.existsByEmail(email);
     }
 
+    @Override
+    public void updateProfile(EditProfile editProfile, AuthenticationDetails details) {
+        Profile profileToEdit = profileRepo.getProfileById(details.getId());
+
+        profileToEdit.setProfilePicture(editProfile.getProfilePicture());
+
+        profileRepo.save(profileToEdit);
+    }
+
 
     @Override
     public Profile getProfileById(UUID uuid) {
@@ -94,6 +104,6 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
 
         Profile profile = profileRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
 
-        return new AuthenticationDetails(profile.getId(), profile.getEmail(), profile.getPassword(), profile.getRole(), true);
+        return new AuthenticationDetails(profile.getId(), profile.getEmail(), profile.getPassword(), profile.getRole(), true, profile.getProfilePicture());
     }
 }

@@ -21,4 +21,6 @@ public interface ProfileRepo extends JpaRepository<Profile, UUID> {
     boolean existsByUsername(String username);
 
     boolean existsByEmail(String email);
+
+    Profile getProfileById(UUID id);
 }

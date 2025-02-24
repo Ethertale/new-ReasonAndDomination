@@ -1,6 +1,8 @@
 package io.ethertale.reasonanddominationspringdefenseproject.account.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
+import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormRegisterDTO;
 
@@ -16,4 +18,6 @@ public interface ProfileService {
     Profile loginProfile(FormLoginDTO formLoginDTO);
     boolean profileExistsByUsername(String username);
     boolean profileExistsByEmail(String email);
+
+    void updateProfile(EditProfile editProfile, AuthenticationDetails details);
 }
