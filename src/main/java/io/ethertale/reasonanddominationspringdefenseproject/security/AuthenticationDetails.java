@@ -23,6 +23,7 @@ public class AuthenticationDetails implements UserDetails {
     private String password;
     private AccountRole role;
     private boolean isActive;
+    private String profilePicture;
 
     // Authority - permission или роля
     @Override
