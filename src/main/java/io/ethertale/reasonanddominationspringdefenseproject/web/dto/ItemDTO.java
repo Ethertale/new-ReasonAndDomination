@@ -2,12 +2,13 @@ package io.ethertale.reasonanddominationspringdefenseproject.web.dto;
 
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemRarity;
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemType;
-import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemTypeWeapon;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 public class ItemDTO {

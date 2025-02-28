@@ -7,7 +7,6 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.repo.Profile
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
-import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormRegisterDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -15,7 +14,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import javax.security.auth.login.AccountException;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -97,8 +95,6 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         return profileRepo.findById(uuid).orElse(null);
     }
 
-    //Всеки път, когато потребител се логва, Spring Security ще извиква този
-    //метод за да вземе детайлите на пторебителя с този email(username)
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 
