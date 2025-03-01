@@ -31,7 +31,7 @@ public class DungeonServiceTest {
 
     @BeforeEach
     void setUp() {
-        dungeon = new Dungeon(1L, "Dark Abyss", "A mysterious dark dungeon", 10, DungeonType.DUNGEON, DungeonSize.DUNGEON_10, "image.jpg", "map.jpg");
+        dungeon = new Dungeon(1L, "Dark Abyss", "A mysterious dark dungeon", 10, DungeonType.DUNGEON, DungeonSize.DUNGEON_10, "image.jpg", "map.jpg", "a-mysterious-dark-dungeon");
     }
 
     @Test
