@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DungeonRepo extends JpaRepository<Dungeon, Integer> {
+    void findDungeonByName(String title);
+    Dungeon findDungeonBySlug(String slug);
 }
