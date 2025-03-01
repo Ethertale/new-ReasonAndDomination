@@ -49,19 +49,19 @@
             <div class="col-12 col-md-3 d-flex flex-column border">
                 <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/125/125186-8b39d21082f93a49a0f17cfbfe5d3c20.jpg" style="width: 50px" alt=""> Edisonspire Foundry Guides</h5>
                 <th:block th:each="post: ${edisonspireGuides}">
-                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" href="#"></a></td>
+                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" th:href="'/guides/posts/' + ${post.getSlug()}"></a></td>
                 </th:block>
             </div>
             <div class="col-12 col-md-3 d-flex flex-column border">
                 <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/61/61058-a8c677e950f11090d831bab5bfe56e48.jpg" style="width: 50px" alt=""> Geargrind Grotto Guides</h5>
                 <th:block th:each="post: ${geargrindGrottoGuides}">
-                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" href="#"></a></td>
+                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" th:href="'/guides/posts/' + ${post.getSlug()}"></a></td>
                 </th:block>
             </div>
             <div class="col-12 col-md-3 d-flex flex-column border">
                 <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/217/217236-11de84cd036f0fa5fa58fac2865f188f.png" style="width: 50px" alt=""> Arena S3 Guides</h5>
                 <th:block th:each="post: ${arenaS3Guides}">
-                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" href="#"></a></td>
+                    <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()}" th:href="'/guides/posts/' + ${post.getSlug()}"></a></td>
                 </th:block>
             </div>
         </div>
