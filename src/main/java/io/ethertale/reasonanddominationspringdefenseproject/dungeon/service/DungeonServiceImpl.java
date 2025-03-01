@@ -6,11 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DungeonServiceImpl implements DungeonService {
 
-    DungeonRepo dungeonRepo;
+    private final DungeonRepo dungeonRepo;
 
     @Autowired
     public DungeonServiceImpl(DungeonRepo dungeonRepo) {
@@ -20,5 +21,11 @@ public class DungeonServiceImpl implements DungeonService {
     @Override
     public List<Dungeon> getAllDungeons() {
         return dungeonRepo.findAll();
+    }
+
+    @Override
+    public Dungeon getDungeonByTitle(String title) {
+
+        return dungeonRepo.findDungeonBySlug(title);
     }
 }
