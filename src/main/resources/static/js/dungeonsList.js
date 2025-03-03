@@ -12,11 +12,11 @@ document.addEventListener("DOMContentLoaded", function() {
                             <a href="/dungeons/${dungeon.slug}">
                                 <h3 class="text-center">${dungeon.name}</h3>
                             </a>
-                            <p class="hideDrop">${dungeon.dungeonType.name}</p>
+                            <p class="hideDrop">${dungeon.dungeonType}</p>
                             <p class="hideDrop">Level ${dungeon.level}</p>
-                            ${dungeon.dungeonSize.name === 'DUNGEON_10' ? '<p class="hideDrop">10-Man</p>' : ''}
-                            ${dungeon.dungeonSize.name === 'RAID_20' ? '<p class="hideDrop">20-Man</p>' : ''}
-                            ${dungeon.dungeonSize.name === 'RAID_40' ? '<p class="hideDrop">40-Man</p>' : ''}
+                            ${dungeon.dungeonSize === 'DUNGEON_10' ? '<p class="hideDrop">10-Man</p>' : ''}
+                            ${dungeon.dungeonSize === 'RAID_20' ? '<p class="hideDrop">20-Man</p>' : ''}
+                            ${dungeon.dungeonSize === 'RAID_40' ? '<p class="hideDrop">40-Man</p>' : ''}
                         </div>
                     `;
                 dungeonList.innerHTML += dungeonElement;
