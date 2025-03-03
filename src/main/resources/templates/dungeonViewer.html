@@ -8,31 +8,40 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <title>Document</title>
+    <style>
+        small, p {
+            color: #826053;
+        }
+        h1, h3  {
+            color: #d3a862;
+        }
+    </style>
 </head>
 <body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
 <nav th:replace="~{templates::header}"></nav>
 
-<div class="container-fluid d-flex flex-row">
-    <div class="container col-12 col-md-6" th:object="${dungeon}">
-        <h1 style="color: #d3a862" th:text="${dungeon.getName()}"></h1>
-        <small style="color: #826053" th:if="${dungeon.getDungeonSize().name()} == 'DUNGEON_10'" th:text="'Level ' + ${dungeon.getLevel()} + ' Dungeon for 10 players'"></small>
-        <small style="color: #826053" th:if="${dungeon.getDungeonSize().name()} == 'RAID_20'" th:text="'Level ' + ${dungeon.getLevel()} + ' Raid for 20 players'"></small>
-        <small style="color: #826053" th:if="${dungeon.getDungeonSize().name()} == 'RAID_40'" th:text="'Level ' + ${dungeon.getLevel()} + ' Raid for 40 players'"></small>
-        <p style="color: #826053" th:text="${dungeon.getDescription()}"></p>
-        <br>
-        <img class="img-fluid p-0 m-2 border" th:src="'/' + ${dungeon.getImageMap()}" alt="">
-    </div>
-    <div class="container d-flex flex-column col-12 col-md-5">
-        <h3 style="color: #d3a862">Quick Facts:</h3>
-        <div class="container d-flex flex-column border">
-            <p style="color: #826053" th:text="'Level: ' + ${dungeon.getLevel()}"></p>
-            <p style="color: #826053" th:text="'Territory: PLACEHOLDER'"></p>
-            <p style="color: #826053" th:text="'Instance Type: ' + ${dungeon.getDungeonType().name}"></p>
-            <p style="color: #826053" th:if="${dungeon.getDungeonSize().name()} == 'DUNGEON_10'" th:text="'Number of Players: 10'"></p>
-            <p style="color: #826053" th:if="${dungeon.getDungeonSize().name()} == 'RAID_20'" th:text="'Number of Players: 20'"></p>
-            <p style="color: #826053" th:if="${dungeon.getDungeonSize().name()} == 'RAID_40'" th:text="'Number of Players: 40'"></p>
-            <p style="color: #826053" th:text="'Zone ID: ' + ${dungeon.getId()}"></p>
-            <p style="color: #826053" th:text="'Final Boss: PLACEHOLDER'"></p>
+<div id="dungeon-viewer" class="container-fluid d-flex flex-row">
+    <div class="container-fluid d-flex flex-row">
+        <div class="container col-12 col-md-6 mt-3" id="dungeon-info">
+            <div class="container d-flex flex-row align-items-center p-0">
+                <img id="dungeon-image" src="" alt="">
+                <h1 id="dungeon-name"></h1>
+            </div>
+            <small id="dungeon-size"></small>
+            <p id="dungeon-description"></p>
+            <br>
+            <img class="img-fluid p-0 m-2 border" id="dungeon-map" src="" alt="">
+        </div>
+        <div class="container d-flex flex-column col-12 col-md-5 mt-3">
+            <h3>Quick Facts:</h3>
+            <div class="container d-flex flex-column border">
+                <p id="dungeon-level"></p>
+                <p id="dungeon-territory"></p>
+                <p id="dungeon-instance-type"></p>
+                <p id="dungeon-players"></p>
+                <p id="dungeon-zone-id"></p>
+                <p id="dungeon-final-boss"></p>
+            </div>
         </div>
     </div>
 </div>
@@ -48,5 +57,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
+<script th:src="@{/js/dungeonViewer.js}"></script>
 </body>
 </html>
