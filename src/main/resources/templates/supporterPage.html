@@ -18,15 +18,21 @@
 <nav th:replace="~{templates::header}"></nav>
 
 <div class="container pt-5">
-    <div class="row">
+    <div class="row" th:object="${user}">
         <div class="col-10 col-md-6 col-lg-3">
-            <div style="background-color: rgba(0, 128, 0, 0.5);" class="container d-flex flex-column justify-content-center align-items-center border rounded">
+            <div style="background-color: rgba(0, 128, 0, 0.5);"
+                 class="container d-flex flex-column justify-content-center align-items-center border rounded">
                 <h2 style="color: green;">Uncommon</h2>
                 <h1>$3</h1>
                 <p>PER MONTH</p>
                 <small>(+VAT)</small>
                 <br>
-                <button class="btn btn-primary">ACTIVATE</button>
+                <button th:if="${user.getRole().name()} == 'TIER_UNCOMMON'" class="btn btn-secondary" disabled>ACTIVATED</button>
+                <button th:if="${user.getRole().name()} == 'ADMIN'" class="btn btn-danger" disabled>ADMIN</button>
+                <form th:action="@{'/support-us/' + 'uncommon'}" th:method="POST">
+                    <input type="hidden" name="tier" value="uncommon"/>
+                    <button type="submit" th:if="${user.getRole().name()} != 'TIER_UNCOMMON' AND ${user.getRole().name()} != 'ADMIN'" class="btn btn-primary">ACTIVATE</button>
+                </form>
                 <br>
                 <p>With this level you get:</p>
                 <ul>
@@ -40,14 +46,19 @@
             </div>
         </div>
         <div class="col-10 col-md-6 col-lg-3">
-            <div style="background-color: rgba(65, 105, 225, 0.5);" class="container d-flex flex-column justify-content-center align-items-center border rounded">
+            <div style="background-color: rgba(65, 105, 225, 0.5);"
+                 class="container d-flex flex-column justify-content-center align-items-center border rounded">
                 <h2 style="color: royalblue;">Rare</h2>
                 <h1>$6</h1>
                 <p>PER MONTH</p>
                 <small>(+VAT)</small>
                 <br>
-                <button class="btn btn-primary">ACTIVATE</button>
-                <br>
+                <button th:if="${user.getRole().name()} == 'TIER_RARE'" class="btn btn-secondary" disabled>ACTIVATED</button>
+                <button th:if="${user.getRole().name()} == 'ADMIN'" class="btn btn-danger" disabled>ADMIN</button>
+                <form th:action="@{'/support-us/' + 'rare'}" th:method="POST">
+                    <input type="hidden" name="tier" value="rare"/>
+                    <button type="submit" th:if="${user.getRole().name()} != 'TIER_RARE' AND ${user.getRole().name()} != 'ADMIN'" class="btn btn-primary">ACTIVATE</button>
+                </form>                <br>
                 <p>With this level you get:</p>
                 <ul>
                     <li>Everything from previous tier plus:</li>
@@ -59,14 +70,19 @@
             </div>
         </div>
         <div class="col-10 col-md-6 col-lg-3">
-            <div style="background-color: rgba(102, 51, 153, 0.5);" class="container d-flex flex-column justify-content-center align-items-center border border-warning rounded-top">
+            <div style="background-color: rgba(102, 51, 153, 0.5);"
+                 class="container d-flex flex-column justify-content-center align-items-center border border-warning rounded-top">
                 <h2 style="color: rebeccapurple;">Epic</h2>
                 <h1>$10</h1>
                 <p>PER MONTH</p>
                 <small>(+VAT)</small>
                 <br>
-                <button class="btn btn-primary" disabled>ACTIVATE</button>
-                <br>
+                <button th:if="${user.getRole().name()} == 'TIER_EPIC'" class="btn btn-secondary" disabled>ACTIVATED</button>
+                <button th:if="${user.getRole().name()} == 'ADMIN'" class="btn btn-danger" disabled>ADMIN</button>
+                <form th:action="@{'/support-us/' + 'epic'}" th:method="POST">
+                    <input type="hidden" name="tier" value="epic"/>
+                    <button type="submit" th:if="${user.getRole().name()} != 'TIER_EPIC' AND ${user.getRole().name()} != 'ADMIN'" class="btn btn-primary">ACTIVATE</button>
+                </form>                <br>
                 <p>With this level you get:</p>
                 <ul>
                     <li>Everything from previous tier plus:</li>
@@ -81,14 +97,19 @@
             </div>
         </div>
         <div class="col-10 col-md-6 col-lg-3">
-            <div style="background-color: rgba(255, 140, 0, 0.5);" class="container d-flex flex-column justify-content-center align-items-center border rounded">
+            <div style="background-color: rgba(255, 140, 0, 0.5);"
+                 class="container d-flex flex-column justify-content-center align-items-center border rounded">
                 <h2 style="color: darkorange;">Legendary</h2>
                 <h1>$25</h1>
                 <p>PER MONTH</p>
                 <small>(+VAT)</small>
                 <br>
-                <button class="btn btn-primary">ACTIVATE</button>
-                <br>
+                <button th:if="${user.getRole().name()} == 'TIER_LEGENDARY'" class="btn btn-secondary" disabled>ACTIVATED</button>
+                <button th:if="${user.getRole().name()} == 'ADMIN'" class="btn btn-danger" disabled>ADMIN</button>
+                <form th:action="@{'/support-us/' + 'legendary'}" th:method="POST">
+                    <input type="hidden" name="tier" value="legendary"/>
+                    <button type="submit" th:if="${user.getRole().name()} != 'TIER_LEGENDARY' AND ${user.getRole().name()} != 'ADMIN'" class="btn btn-primary">ACTIVATE</button>
+                </form>                <br>
                 <p>With this level you get:</p>
                 <ul>
                     <li>Everything from previous tier plus:</li>
