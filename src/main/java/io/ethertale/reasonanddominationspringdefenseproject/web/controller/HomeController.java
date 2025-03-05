@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
+import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountStatus;
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.service.ProfileService;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.service.ForumPostService;
@@ -34,9 +35,14 @@ public class HomeController {
     }
 
     @GetMapping
-    public ModelAndView index(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+    public ModelAndView index(@AuthenticationPrincipal AuthenticationDetails authenticationDetails, HttpSession session) {
 
         Profile user = profileService.getProfileById(authenticationDetails.getId());
+
+        if (user.getStatus() == AccountStatus.DEACTIVATED) {
+            session.invalidate();
+            return new ModelAndView("redirect:/login?error");
+        }
 
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("user", user);
@@ -52,6 +58,11 @@ public class HomeController {
     @GetMapping("/player-lookup")
     public String playerLookup(Model model) {
         return "player-lookup";
+    }
+
+    @GetMapping("/about-us")
+    public String aboutUsView(){
+        return "aboutUs";
     }
 
 
