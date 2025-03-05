@@ -34,6 +34,8 @@ public class Dungeon {
     private String imageMap;
     @Column
     private String slug;
+    @Column(name = "last_boss")
+    private String lastBoss;
 
 
     public String setSlug(String slug) {

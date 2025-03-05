@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
             document.getElementById('dungeon-players').textContent = playersText;
             document.getElementById('dungeon-zone-id').textContent = 'Zone ID: ' + dungeon.id;
-            document.getElementById('dungeon-final-boss').textContent = 'Final Boss: ' + (dungeon.finalBoss || 'PLACEHOLDER');
+            document.getElementById('dungeon-final-boss').textContent = (dungeon.lastBoss || 'PLACEHOLDER');
         })
         .catch(error => {
             console.error('Error fetching dungeon data:', error);
