@@ -1,3 +1,15 @@
+#race-name {
+    color: #d3a862;
+}
+
+#race-description {
+    color: #d3a862;
+}
+
+#race-faction-name {
+    color: #d3a862;
+}
+
 .row img {
     aspect-ratio: 1/1;
     width: 50%;
