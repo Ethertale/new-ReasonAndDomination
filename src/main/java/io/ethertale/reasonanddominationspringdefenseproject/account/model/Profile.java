@@ -1,6 +1,7 @@
 package io.ethertale.reasonanddominationspringdefenseproject.account.model;
 
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
+import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
 import io.ethertale.reasonanddominationspringdefenseproject.playerCharacter.model.Hero;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,6 +41,8 @@ public class Profile {
     private List<Hero> heroes;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
     private List<ForumPost> posts;
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
+    private List<ForumPostContent> comments;
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
