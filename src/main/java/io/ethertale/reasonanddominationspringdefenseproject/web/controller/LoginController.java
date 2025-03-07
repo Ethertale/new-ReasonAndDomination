@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
-@RequestMapping("/login")
+//@RequestMapping("/login")
 public class LoginController {
 
     private final ProfileService profileService;
@@ -27,7 +27,7 @@ public class LoginController {
         this.profileService = profileService;
     }
 
-    @GetMapping
+    @GetMapping("/login")
     public ModelAndView login(@RequestParam(value = "error", required = false) String errorParam) {
         ModelAndView modelAndView = new ModelAndView("login");
         modelAndView.addObject("form", new FormLoginDTO());

@@ -10,8 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" th:href="@{/css/raceView-style.css}" type="text/css">
-    <title>R&D - Meet the races</title>
+    <link rel="stylesheet" th:href="@{/css/classView-style.css}" type="text/css">
+    <title>R&D - The Classes</title>
 </head>
 <body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
 <nav th:replace="~{templates::header}"></nav>
@@ -19,18 +19,16 @@
 <div class="container">
     <div class="row">
         <div class="col-12 col-md-6">
-            <h1 style="font-family: 'Cormorant Unicase', Serif; font-weight: 700; font-style: normal" class="text-center" id="race-name"></h1>
+            <h1 style="font-family: 'Cormorant Unicase', Serif; font-weight: 700; font-style: normal" class="text-center" id="class-name"></h1>
             <div class="slider">
                 <div class="slides">
-                    <img id="automaton" th:src="@{/imgs/races/automaton_portrait.png}" alt="" class="slide">
-                    <img id="avian" th:src="@{/imgs/races/avian_portrait.png}" alt="" class="slide">
-                    <img id="dwarf" th:src="@{/imgs/races/dwarf_portrait.png}" alt="" class="slide">
-                    <img id="elf" th:src="@{/imgs/races/elf_portrait.png}" alt="" class="slide">
-                    <img id="ethereal" th:src="@{/imgs/races/ethereal_portrait.png}" alt="" class="slide">
-                    <img id="gnome" th:src="@{/imgs/races/gnome_portrait.png}" alt="" class="slide">
-                    <img id="human" th:src="@{/imgs/races/human_portrait.png}" alt="" class="slide">
-                    <img id="orc" th:src="@{/imgs/races/orc_portrait.png}" alt="" class="slide">
-                    <img id="smogborn" th:src="@{/imgs/races/smogborn_portrait.png}" alt="" class="slide">
+                    <img id="cogcaster" th:src="@{/imgs/classes/cogcaster-class.png}" alt="" class="slide">
+                    <img id="enforcer" th:src="@{/imgs/classes/enforcer-class.png}" alt="" class="slide">
+                    <img id="occultist" th:src="@{/imgs/classes/occultist-class.png}" alt="" class="slide">
+                    <img id="sentinel" th:src="@{/imgs/classes/sentinel-class.png}" alt="" class="slide">
+                    <img id="shaper" th:src="@{/imgs/classes/shaper-class.png}" alt="" class="slide">
+                    <img id="tinkerer" th:src="@{/imgs/classes/tinkerer-class.png}" alt="" class="slide">
+                    <img id="tracker" th:src="@{/imgs/classes/tracker-class.png}" alt="" class="slide">
                 </div>
                 <div class="container d-flex justify-content-around">
                     <button style="color: #d3a862; font-size: 2rem; box-shadow: none" class="previous btn btn-lg" onclick="previousSlide()">&#10094</button>
@@ -39,12 +37,13 @@
             </div>
         </div>
         <div class="col-12 col-md-6 d-flex align-items-center justify-content-center">
-            <div style="height: 60vh; max-height: 650px; min-height: 600px; aspect-ratio: 1/1; background-color: #231a1a;" class="container d-flex flex-column align-items-center justify-content-between p-2 border">
+            <div style="height: 58vh; aspect-ratio: 1/1; background-color: #231a1a;" class="container d-flex flex-column align-items-center justify-content-around p-2 border">
                 <div class="container d-flex flex-column align-items-center justify-content-center">
-                    <img class="rounded-circle border" id="race-faction" src="" alt="">
-                    <h4 id="race-faction-name"></h4>
+                    <img class="rounded-circle border" id="class-emblem" src="" alt="">
+                    <h5 style="color: #d3a862">Avaliable to:</h5>
+                    <h6 class="p-0" id="available-to"></h6>
                 </div>
-                <p id="race-description"></p>
+                <p id="class-description"></p>
             </div>
         </div>
     </div>
@@ -60,6 +59,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/js/bootstrap.min.js"
         integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
         crossorigin="anonymous"></script>
-<script th:src="@{/js/raceSlider.js}"></script>
+<script th:src="@{/js/classSlider.js}"></script>
 </body>
 </html>

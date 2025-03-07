@@ -7,6 +7,7 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.util.List;
 import java.util.Set;
 import java.util.UUID;
 
@@ -31,7 +32,7 @@ public class ForumPost {
     @JoinColumn(name = "profile_id")
     private Profile author;
     @OneToMany(mappedBy = "forumPost", cascade = CascadeType.ALL)
-    private Set<ForumPostContent> comments;
+    private List<ForumPostContent> comments;
 
     @Column
     private LocalDateTime createdOn;
@@ -42,9 +43,18 @@ public class ForumPost {
 
     public String setSlug(String slug) {
         this.slug = slug.toLowerCase()
-                .replaceAll("\\s", "-")
-                .replaceAll("'", "")
-                .replaceAll(",", "");
+                .replaceAll("[^a-zA-Z0-9]+","")
+                .replaceAll("\\s", "-");
         return slug;
+    }
+
+    public String getSlug() {
+        return slug.toLowerCase()
+                .replaceAll("[^a-zA-Z0-9]+","")
+                .replaceAll("\\s", "-");
+    }
+
+    public void addComment(ForumPostContent comment) {
+        this.comments.add(comment);
     }
 }

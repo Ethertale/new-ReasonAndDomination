@@ -66,6 +66,9 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         if (!passwordEncoder.matches(formLoginDTO.getPassword(), profile.getPassword())){
             throw new IllegalArgumentException("Invalid password");
         }
+        if (profile.getStatus() == AccountStatus.DEACTIVATED){
+            throw new IllegalArgumentException("Account is deactivated");
+        }
 
         return profile;
     }
@@ -87,6 +90,26 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         profileToEdit.setProfilePicture(editProfile.getProfilePicture());
 
         profileRepo.save(profileToEdit);
+    }
+
+    @Override
+    public Profile updateProfileRole(UUID id, String tier) {
+        Profile profile = getProfileById(id);
+        switch (tier) {
+            case "uncommon":
+                profile.setRole(AccountRole.TIER_UNCOMMON);
+                break;
+            case "rare":
+                profile.setRole(AccountRole.TIER_RARE);
+                break;
+            case "epic":
+                profile.setRole(AccountRole.TIER_EPIC);
+                break;
+            case "legendary":
+                profile.setRole(AccountRole.TIER_LEGENDARY);
+                break;
+        }
+        return profileRepo.save(profile);
     }
 
 

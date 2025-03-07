@@ -20,4 +20,6 @@ public interface ProfileService {
     boolean profileExistsByEmail(String email);
 
     void updateProfile(EditProfile editProfile, AuthenticationDetails details);
+
+    Profile updateProfileRole(UUID id, String tier);
 }
