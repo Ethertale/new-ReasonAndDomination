@@ -84,10 +84,20 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     }
 
     @Override
-    public void updateProfile(EditProfile editProfile, AuthenticationDetails details) {
+    public void updateProfile(EditProfile editProfile, Profile details) {
         Profile profileToEdit = profileRepo.getProfileById(details.getId());
 
-        profileToEdit.setProfilePicture(editProfile.getProfilePicture());
+        if (editProfile.getProfilePicture().isBlank() || editProfile.getProfilePicture() == null){
+            profileToEdit.setProfilePicture(details.getProfilePicture());
+        }else {
+            profileToEdit.setProfilePicture(editProfile.getProfilePicture());
+        }
+
+        if (editProfile.getRole() == null){
+            profileToEdit.setRole(profileToEdit.getRole());
+        }else {
+            profileToEdit.setRole(editProfile.getRole());
+        }
 
         profileRepo.save(profileToEdit);
     }
@@ -110,6 +120,11 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
                 break;
         }
         return profileRepo.save(profile);
+    }
+
+    @Override
+    public List<AccountRole> getAllRoles() {
+        return List.of(AccountRole.values());
     }
 
 

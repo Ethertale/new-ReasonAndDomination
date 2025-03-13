@@ -1,3 +1,16 @@
+@import url('https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
+
 body {
     background-image: url("https://i.ibb.co/6g0crpd/background.png");
 }
+
+h2 {
+    font-family: "Cormorant Unicase", serif;
+    font-weight: 700;
+    font-style: normal;
+}
+
+p {
+    font-family: "Montserrat", sans-serif;
+}
+

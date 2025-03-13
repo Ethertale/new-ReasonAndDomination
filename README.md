@@ -72,7 +72,7 @@ This project utilizes the following tools and technologies:
 - **Discord**: [Coming Soon]
 
 ### Assets:
-- **[Logo (big)](https://ibb.co/GMfH84M)**
-- **[Logo (text)](https://ibb.co/zPsLBz3)**
+- **[Logo (big)](https://ibb.co/zPsLBz3)**
+- **[Logo (text)](https://ibb.co/GMfH84M)**
 - **[Background 1](https://ibb.co/5BhXGz7)**
 - **[Background 2](https://ibb.co/0yKQmy5B)**

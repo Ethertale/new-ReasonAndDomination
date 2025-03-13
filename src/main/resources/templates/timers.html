@@ -10,123 +10,9 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Cormorant+Unicase:wght@300;400;500;600;700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <title>Document</title>
-    <style>
-        #imgCont1, #imgCont2, #imgCont3 {
-            overflow: hidden;
-            z-index: -1;
-            background-color: black;
-        }
-        #imgCont1 h1, #imgCont1 p, #imgCont2 h1, #imgCont2 p, #imgCont3 h1, #imgCont3 p {
-            z-index: 1;
-            color: #d3a862;
-        }
-        h1 {
-            font-family: 'Cormorant Unicase', Serif;
-            font-weight: 700;
-            font-style: normal;
-            font-size: 4rem;
-        }
-        p {
-            font-family: 'Montserrat', sans-serif;
-        }
-        .timerText {
-            font-size: 1.5rem;
-        }
-        #imgcontainer1 {
-            width: 100%;
-            display: flex;
-            animation: slideWorldBoss 25s infinite;
-            position: absolute;
-            z-index: 0;
-        }
-        #imgcontainer2 {
-            width: 100%;
-            display: flex;
-            animation: slideRaid20 25s infinite;
-            position: absolute;
-            z-index: 0;
-        }
-        #imgcontainer3 {
-            width: 100%;
-            display: flex;
-            animation: slideRaid40 25s infinite;
-            position: absolute;
-            z-index: 0;
-        }
-
-        #imgcontainer1 img, #imgcontainer2 img, #imgcontainer3 img{
-            width: 100%;
-            opacity: 0.3;
-        }
-
-        @keyframes slideWorldBoss {
-            0% {
-                transform: translateX(0%);
-            }
-            20% {
-                transform: translateX(0%);
-            }
-            25% {
-                transform: translateX(-100%);
-            }
-            40% {
-                transform: translateX(-100%);
-            }
-            45% {
-                transform: translateX(-200%);
-            }
-            60% {
-                transform: translateX(-200%);
-            }
-            65% {
-                transform: translateX(-300%);
-            }
-            80% {
-                transform: translateX(-300%);
-            }
-            85% {
-                transform: translateX(-400%);
-            }
-            100% {
-                transform: translateX(-400%);
-            }
-        }
-        @keyframes slideRaid20 {
-            0% {
-                transform: translateX(0%);
-            }
-            33.3%{
-                transform: translateX(0%);
-            }
-            38.3%{
-                transform: translateX(-100%);
-            }
-            66.6%{
-                transform: translateX(-100%);
-            }
-            71.6%{
-                transform: translateX(-200%);
-            }
-            100%{
-                transform: translateX(-200%);
-            }
-        }
-        @keyframes slideRaid40 {
-            0% {
-                transform: translateX(0%);
-            }
-            50% {
-                transform: translateX(0%);
-            }
-            55% {
-                transform: translateX(-100%);
-            }
-            100% {
-                transform: translateX(-100%);
-            }
-        }
-    </style>
+    <link rel="stylesheet" th:href="@{/css/general.css}" type="text/css">
+    <link rel="stylesheet" th:href="@{/css/timers-style.css}" type="text/css">
+    <title>R&D - Timers</title>
 </head>
 <body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
 <nav th:replace="~{templates::header}"></nav>
@@ -138,10 +24,11 @@
 
 <div class="container-fluid p-5">
     <div class="row d-flex justify-content-around">
-        <div id="imgCont1" style="aspect-ratio: 1/1" class="col-12 col-md-5 col-lg-3 border p-3 d-flex flex-column justify-content-center align-items-center">
+        <div id="imgCont1" style="aspect-ratio: 1/1" class="col-12 col-md-5 col-lg-3 border rounded p-3 d-flex flex-column justify-content-center align-items-center">
             <h1>WORLD BOSS</h1>
             <p class="m-0">Magnar/Vexmorne/Sivareth</p>
             <p>Maltherius/Vaedros</p>
+            <small>Resets every 5 days</small>
             <p class="timerText" th:text="${#temporals.format(worldBossTimer, 'dd/MM HH:mm')}"></p>
             <div id="imgcontainer1">
                 <img th:src="@{/imgs/timers/worldBoss/magnar_thumbnail.png}" alt="">
@@ -151,9 +38,10 @@
                 <img th:src="@{/imgs/timers/worldBoss/vexmorne_thumbnail.png}" alt="">
             </div>
         </div>
-        <div id="imgCont2" style="aspect-ratio: 1/1" class="col-12 col-md-5 col-lg-3 border p-3 d-flex flex-column justify-content-center align-items-center">
+        <div id="imgCont2" style="aspect-ratio: 1/1" class="col-12 col-md-5 col-lg-3 border rounded p-3 d-flex flex-column justify-content-center align-items-center">
             <h1>RAID 20</h1>
             <p>ID/Cruc/ZNC</p>
+            <small>Resets every 3 days</small>
             <p class="timerText" th:text="${#temporals.format(raid20Timer, 'dd/MM HH:mm')}"></p>
             <div id="imgcontainer2">
                 <img th:src="@{/imgs/timers/raid20/ironclad-depths-thumbnail.png}" alt="">
@@ -161,9 +49,10 @@
                 <img th:src="@{/imgs/timers/raid20/zephyr-nexus-citadel-thumbnail.png}" alt="">
             </div>
         </div>
-        <div id="imgCont3" style="aspect-ratio: 1/1" class="col-12 col-md-5 col-lg-3 border p-3 d-flex flex-column justify-content-center align-items-center">
+        <div id="imgCont3" style="aspect-ratio: 1/1" class="col-12 col-md-5 col-lg-3 border rounded p-3 d-flex flex-column justify-content-center align-items-center">
             <h1>RAID 40</h1>
             <p>GG/EF</p>
+            <small>Resets every 7 days</small>
             <p class="timerText" th:text="${#temporals.format(raid40Timer, 'dd/MM HH:mm')}"></p>
             <div id="imgcontainer3">
                 <img th:src="@{/imgs/timers/raid40/edisonspire-foundry-thumbnail.png}" alt="">

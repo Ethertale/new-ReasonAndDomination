@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
+import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.service.ProfileService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
@@ -32,18 +33,21 @@ public class ProfileController {
         return modelAndView;
     }
 
-    @GetMapping("/edit")
-    public ModelAndView editUserProfile(@AuthenticationPrincipal AuthenticationDetails details) {
+    @GetMapping("/{id}/edit")
+    public ModelAndView editUserProfile(@AuthenticationPrincipal AuthenticationDetails details, @PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView("editProfile");
+        modelAndView.addObject("user", profileService.getProfileById(id));
         modelAndView.addObject("editProfileForm", new EditProfile());
         modelAndView.addObject("principal", profileService.getProfileById(details.getId()));
+        modelAndView.addObject("roles", profileService.getAllRoles());
         return modelAndView;
     }
 
-    @PostMapping("/edit/submit")
-    public String saveEditProfile(EditProfile editProfile, @AuthenticationPrincipal AuthenticationDetails details) {
-        profileService.updateProfile(editProfile, details);
-        return "redirect:/profile/" + details.getId();
+    @PostMapping("/{id}/edit/submit")
+    public String saveEditProfile(EditProfile editProfile, @AuthenticationPrincipal AuthenticationDetails details, @PathVariable UUID id) {
+        Profile profileToBeEdited = profileService.getProfileById(id);
+        profileService.updateProfile(editProfile, profileToBeEdited);
+        return "redirect:/profile/" + profileToBeEdited.getId();
     }
 
 

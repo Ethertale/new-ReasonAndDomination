@@ -1,10 +1,9 @@
 package io.ethertale.reasonanddominationspringdefenseproject.account.service;
 
+import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountRole;
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
-import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
-import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormRegisterDTO;
 
 import java.util.List;
 import java.util.UUID;
@@ -19,7 +18,9 @@ public interface ProfileService {
     boolean profileExistsByUsername(String username);
     boolean profileExistsByEmail(String email);
 
-    void updateProfile(EditProfile editProfile, AuthenticationDetails details);
+    void updateProfile(EditProfile editProfile, Profile details);
 
     Profile updateProfileRole(UUID id, String tier);
+
+    List<AccountRole> getAllRoles();
 }

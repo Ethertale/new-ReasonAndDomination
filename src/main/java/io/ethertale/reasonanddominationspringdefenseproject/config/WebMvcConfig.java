@@ -33,7 +33,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
         http.authorizeHttpRequests(matchers -> matchers
                 .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
 //                .requestMatchers("static/***").permitAll()
-                .requestMatchers("imgs/**", "css/**", "fonts/**", "js/**").permitAll()
+                .requestMatchers("/favicon.ico", "/imgs/**", "/css/**", "/fonts/**", "/js/**").permitAll()
                 .requestMatchers("/", "/register").permitAll()
                 .requestMatchers("/database-dar").hasRole("ADMIN")
                 .anyRequest().authenticated()
@@ -47,9 +47,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
                 .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET"))
                 .logoutSuccessUrl("/")
         );
-
-
-
         return http.build();
     }
 }

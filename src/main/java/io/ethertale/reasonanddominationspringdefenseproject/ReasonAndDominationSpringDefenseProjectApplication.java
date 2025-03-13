@@ -17,7 +17,7 @@ import java.util.UUID;
 
 @EnableScheduling
 @EnableFeignClients
-@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
+@SpringBootApplication()
 public class ReasonAndDominationSpringDefenseProjectApplication {
 
     public static void main(String[] args) {
