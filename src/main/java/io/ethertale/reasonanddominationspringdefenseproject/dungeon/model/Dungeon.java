@@ -3,8 +3,6 @@ package io.ethertale.reasonanddominationspringdefenseproject.dungeon.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.UUID;
-
 @Entity
 @Getter
 @Setter
