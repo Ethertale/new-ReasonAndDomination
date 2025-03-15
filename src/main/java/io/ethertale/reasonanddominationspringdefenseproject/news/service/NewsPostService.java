@@ -1,7 +1,18 @@
 package io.ethertale.reasonanddominationspringdefenseproject.news.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.NewsPostForm;
+
+import java.util.List;
 
 public interface NewsPostService {
-    NewsPost createNewsPost(String title, String content);
+
+    List<NewsPost> getAllNews();
+
+    NewsPost createNewsPost(GuidePostForm guidePostForm);
+
+    NewsPost getNewsPostBySlug(String slug);
+
+    List<NewsPost> findLastFive();
 }

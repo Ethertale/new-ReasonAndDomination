@@ -41,7 +41,7 @@
                     <tr>
                         <td><a th:text="${post.getTitle()}" th:href="@{/forum/posts/{slug}(slug=${post.getSlug()})}"></a></td>
                         <td><a href="#">PLACEHOLDER</a></td>
-                        <td>0</td>
+                        <td th:text="${post.getComments().size()}"></td>
                         <td th:text="${post.getCreatedOn()}"></td>
                     </tr>
                 </tbody>

@@ -44,12 +44,12 @@ public class GuidesController {
         return "redirect:/guides";
     }
 
-    @GetMapping("/posts")
-    public ModelAndView guiding(){
-        ModelAndView modelAndView = new ModelAndView("guidesPost");
-        modelAndView.setViewName("guidesPost");
-        return modelAndView;
-    }
+//    @GetMapping("/posts")
+//    public ModelAndView guiding(){
+//        ModelAndView modelAndView = new ModelAndView("guidesPost");
+//        modelAndView.setViewName("guidesPost");
+//        return modelAndView;
+//    }
 
     @GetMapping("/posts/{slug}")
     public ModelAndView getGuidePost(@PathVariable String slug){

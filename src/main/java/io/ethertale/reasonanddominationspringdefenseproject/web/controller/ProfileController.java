@@ -34,6 +34,7 @@ public class ProfileController {
     }
 
     @GetMapping("/{id}/edit")
+    @PreAuthorize("#id == authentication.principal.id or hasRole('ADMIN')")
     public ModelAndView editUserProfile(@AuthenticationPrincipal AuthenticationDetails details, @PathVariable UUID id) {
         ModelAndView modelAndView = new ModelAndView("editProfile");
         modelAndView.addObject("user", profileService.getProfileById(id));
@@ -44,6 +45,7 @@ public class ProfileController {
     }
 
     @PostMapping("/{id}/edit/submit")
+    @PreAuthorize("#id == authentication.principal.userId or hasRole('ADMIN')")
     public String saveEditProfile(EditProfile editProfile, @AuthenticationPrincipal AuthenticationDetails details, @PathVariable UUID id) {
         Profile profileToBeEdited = profileService.getProfileById(id);
         profileService.updateProfile(editProfile, profileToBeEdited);

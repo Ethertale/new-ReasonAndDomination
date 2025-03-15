@@ -4,6 +4,10 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.model.Accoun
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountStatus;
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.repo.ProfileRepo;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidConfirmPasswordException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidEmailException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterPasswordTooShortException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterUsernameTooShortException;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
@@ -16,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 @Service
 public class ProfileServiceImpl implements ProfileService, UserDetailsService {
@@ -29,12 +35,11 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     }
 
     @Override
-    public Profile createTestUser() {
-        return null;
-    }
+    public void registerProfile(String username, String password, String email, String confirmPassword) {
 
-    @Override
-    public void registerProfile(String username, String password, String email) {
+        checkForExceptions(username, password, email, confirmPassword);
+
+
         Profile profile = new Profile();
         profile.setUsername(username);
         profile.setPassword(passwordEncoder.encode(password));
@@ -42,7 +47,23 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         profile.setRole(AccountRole.USER);
         profile.setStatus(AccountStatus.ACTIVE);
         profile.setCreatedOn(LocalDateTime.now());
+
         profileRepo.save(profile);
+    }
+
+    private void checkForExceptions(String username, String password, String email, String confirmPassword) {
+        if  (username.length() < 5 || username.length() > 15 || username.isBlank()) {
+            throw new RegisterUsernameTooShortException();
+        }
+        if (password.length() < 6 || password.isBlank()) {
+            throw new RegisterPasswordTooShortException();
+        }
+        if (!emailRegexChecker(email) || email.isBlank()) {
+            throw new RegisterInvalidEmailException();
+        }
+        if (!confirmPassword.equals(password) || confirmPassword.isBlank()) {
+            throw new RegisterInvalidConfirmPasswordException();
+        }
     }
 
     @Override
@@ -139,5 +160,11 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         Profile profile = profileRepo.findByEmail(email).orElseThrow(() -> new UsernameNotFoundException(email));
 
         return new AuthenticationDetails(profile.getId(), profile.getEmail(), profile.getPassword(), profile.getRole(), true, profile.getProfilePicture());
+    }
+
+    public boolean emailRegexChecker(String email){
+        Pattern emailPattern = Pattern.compile("^[\\w.]+@([\\w-]+\\.)+[\\w-]{2,4}$", Pattern.CASE_INSENSITIVE);
+        Matcher matcher = emailPattern.matcher(email);
+        return matcher.matches();
     }
 }

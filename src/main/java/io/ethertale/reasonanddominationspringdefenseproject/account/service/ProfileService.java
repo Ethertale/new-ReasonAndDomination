@@ -9,8 +9,7 @@ import java.util.List;
 import java.util.UUID;
 
 public interface ProfileService {
-    Profile createTestUser();
-    void registerProfile(String username, String password, String email);
+    void registerProfile(String username, String password, String email, String confirmPassword);
     List<Profile> getAllProfiles();
     List<Profile> getAllProfilesReversed();
     Profile getProfileById(UUID uuid);

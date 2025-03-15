@@ -32,12 +32,10 @@
         <div class="col-2"></div>
         <div class="col-12 col-md-4 pb-2 d-flex flex-column border">
             <h5 class="pt-2"><img src="https://www.hiveworkshop.com/data/ratory-images/100/100779-6848c4a9a56c3133a2c5d456ad66fadb_tn.jpg" style="width: 50px" alt=""> Latest News</h5>
-            <a href="#">News Post | TIME</a>
-            <a href="#">News Post | TIME</a>
-            <a href="#">News Post | TIME</a>
-            <a href="#">News Post | TIME</a>
-            <a href="#">News Post | TIME</a>
-            <a class="text-center" href="#">explore more news...</a>
+            <th:block th:each="post: ${newsPosts}">
+                <td><a class="text-left border m-1 p-1" th:text="${post.getTitle()} + ' | ' + ${post.getCreatedOn()}" th:href="@{/news/posts/{slug}(slug=${post.getSlug()})}"></a></td>
+            </th:block>
+            <a class="text-center" href="/news">explore more news...</a>
         </div>
     </div>
 </div>

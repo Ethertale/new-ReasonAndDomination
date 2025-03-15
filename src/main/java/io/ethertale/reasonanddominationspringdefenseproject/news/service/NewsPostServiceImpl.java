@@ -1,11 +1,15 @@
 package io.ethertale.reasonanddominationspringdefenseproject.news.service;
 
+import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.repo.NewsPostRepo;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Comparator;
+import java.util.List;
 
 @Service
 public class NewsPostServiceImpl implements NewsPostService {
@@ -18,15 +22,35 @@ public class NewsPostServiceImpl implements NewsPostService {
     }
 
     @Override
-    public NewsPost createNewsPost(String title, String content) {
+    public List<NewsPost> getAllNews() {
+        return newsPostRepo.findAll();
+    }
+
+    @Override
+    public NewsPost createNewsPost(GuidePostForm guidePostForm) {
         NewsPost newsPost = NewsPost.builder()
-                .title(title)
-                .content(content)
+                .title(guidePostForm.getTitle())
+                .content(guidePostForm.getContent())
                 .createdOn(LocalDateTime.now())
                 .build();
 
-        newsPost.setSlug(title);
+        newsPost.setSlug(guidePostForm.getTitle());
 
         return newsPostRepo.save(newsPost);
+    }
+
+    @Override
+    public NewsPost getNewsPostBySlug(String slug) {
+        return newsPostRepo.findBySlug(slug);
+    }
+
+    @Override
+    public List<NewsPost> findLastFive() {
+        return newsPostRepo.findAll()
+                .stream()
+                .sorted(Comparator.comparing(NewsPost::getCreatedOn))
+                .toList()
+                .subList(newsPostRepo.findAll().size() - 5, newsPostRepo.findAll().size())
+                .stream().sorted(Comparator.comparing(NewsPost::getCreatedOn).reversed()).toList();
     }
 }
