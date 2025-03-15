@@ -1,9 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.item.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.Item;
-import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemRarity;
-import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemType;
-import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemWear;
 import io.ethertale.reasonanddominationspringdefenseproject.item.repo.ItemRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ItemDTO;
 import org.springframework.stereotype.Service;

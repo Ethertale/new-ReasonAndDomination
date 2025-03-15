@@ -1,6 +1,5 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
-import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
 import io.ethertale.reasonanddominationspringdefenseproject.news.service.NewsPostService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
