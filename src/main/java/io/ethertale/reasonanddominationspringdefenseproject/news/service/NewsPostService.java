@@ -2,7 +2,6 @@ package io.ethertale.reasonanddominationspringdefenseproject.news.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
-import io.ethertale.reasonanddominationspringdefenseproject.web.dto.NewsPostForm;
 
 import java.util.List;
 

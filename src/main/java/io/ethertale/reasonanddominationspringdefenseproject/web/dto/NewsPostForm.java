@@ -1,6 +1,5 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.dto;
 
-import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
