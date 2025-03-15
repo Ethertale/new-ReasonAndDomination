@@ -1,6 +1,5 @@
 package io.ethertale.reasonanddominationspringdefenseproject.news.service;
 
-import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.repo.NewsPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
