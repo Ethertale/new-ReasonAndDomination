@@ -14,4 +14,6 @@ public interface NewsPostService {
     NewsPost getNewsPostBySlug(String slug);
 
     List<NewsPost> findLastFive();
+
+    List<NewsPost> getAllNewsPostsReversed();
 }

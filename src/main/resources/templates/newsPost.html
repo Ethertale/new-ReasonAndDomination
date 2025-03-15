@@ -25,7 +25,7 @@
     <h2 th:text="${specPost.getTitle()}"></h2>
     <small th:text="${specPost.getCreatedOn()}"></small>
     <div class="container border-top">
-        <p th:text="${specPost.getContent()}"></p>
+        <p th:utext="${specPost.getContent()}"></p>
     </div>
 </div>
 

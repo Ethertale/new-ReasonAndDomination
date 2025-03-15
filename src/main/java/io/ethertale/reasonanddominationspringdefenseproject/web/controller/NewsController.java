@@ -25,7 +25,7 @@ public class NewsController {
     public ModelAndView showNewsPage(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
         ModelAndView modelAndView = new ModelAndView("news");
         modelAndView.addObject("principal", authenticationDetails.getRole());
-        modelAndView.addObject("news", newsPostService.getAllNews());
+        modelAndView.addObject("news", newsPostService.getAllNewsPostsReversed());
         return modelAndView;
     }
 
@@ -44,10 +44,10 @@ public class NewsController {
     }
 
     @GetMapping("/posts/{slug}")
-    public ModelAndView getGuidePost(@PathVariable String slug){
+    public ModelAndView getNewsPost(@PathVariable String slug){
         ModelAndView modelAndView = new ModelAndView("newsPost");
         modelAndView.addObject("specPost", newsPostService.getNewsPostBySlug(slug));
-        modelAndView.setViewName("guidesPost");
+        modelAndView.setViewName("newsPost");
         return modelAndView;
     }
 }

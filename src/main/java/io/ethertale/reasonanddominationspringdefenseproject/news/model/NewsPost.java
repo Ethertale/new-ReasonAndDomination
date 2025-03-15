@@ -1,6 +1,7 @@
 package io.ethertale.reasonanddominationspringdefenseproject.news.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.time.LocalDateTime;
@@ -19,10 +20,12 @@ public class NewsPost {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
     @Column
+    @Size(max = 200)
     private String title;
     @Column
     private String slug;
-    @Column
+    @Column(columnDefinition = "TEXT")
+    @Lob
     private String content;
     @Column
     private LocalDateTime createdOn;

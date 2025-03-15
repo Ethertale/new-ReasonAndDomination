@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.news.service;
 
+import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.repo.NewsPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
@@ -51,5 +52,10 @@ public class NewsPostServiceImpl implements NewsPostService {
                 .toList()
                 .subList(newsPostRepo.findAll().size() - 5, newsPostRepo.findAll().size())
                 .stream().sorted(Comparator.comparing(NewsPost::getCreatedOn).reversed()).toList();
+    }
+
+    @Override
+    public List<NewsPost> getAllNewsPostsReversed() {
+        return newsPostRepo.findAll().stream().sorted(Comparator.comparing(NewsPost::getCreatedOn).reversed()).toList();
     }
 }
