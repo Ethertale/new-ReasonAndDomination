@@ -52,7 +52,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     }
 
     private void checkForExceptions(String username, String password, String email, String confirmPassword) {
-        if  (username.length() < 5 || username.length() > 15 || username.isBlank()) {
+        if (username.length() < 5 || username.length() > 15 || username.isBlank()) {
             throw new RegisterUsernameTooShortException();
         }
         if (password.length() < 6 || password.isBlank()) {
@@ -76,18 +76,18 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         return profileRepo.findAll().stream().sorted(Comparator.comparing(Profile::getCreatedOn).reversed()).toList();
     }
 
-    public Profile loginProfile(FormLoginDTO formLoginDTO){
+    public Profile loginProfile(FormLoginDTO formLoginDTO) {
 
         Optional<Profile> optionProfile = profileRepo.findByEmail(formLoginDTO.getEmail());
-        if (optionProfile.isEmpty()){
+        if (optionProfile.isEmpty()) {
             throw new IllegalArgumentException("Invalid email or password");
         }
 
         Profile profile = optionProfile.get();
-        if (!passwordEncoder.matches(formLoginDTO.getPassword(), profile.getPassword())){
+        if (!passwordEncoder.matches(formLoginDTO.getPassword(), profile.getPassword())) {
             throw new IllegalArgumentException("Invalid password");
         }
-        if (profile.getStatus() == AccountStatus.DEACTIVATED){
+        if (profile.getStatus() == AccountStatus.DEACTIVATED) {
             throw new IllegalArgumentException("Account is deactivated");
         }
 
@@ -108,15 +108,15 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     public void updateProfile(EditProfile editProfile, Profile details) {
         Profile profileToEdit = profileRepo.getProfileById(details.getId());
 
-        if (editProfile.getProfilePicture().isBlank() || editProfile.getProfilePicture() == null){
+        if (editProfile.getProfilePicture().isBlank() || editProfile.getProfilePicture() == null) {
             profileToEdit.setProfilePicture(details.getProfilePicture());
-        }else {
+        } else {
             profileToEdit.setProfilePicture(editProfile.getProfilePicture());
         }
 
-        if (editProfile.getRole() == null){
+        if (editProfile.getRole() == null) {
             profileToEdit.setRole(profileToEdit.getRole());
-        }else {
+        } else {
             profileToEdit.setRole(editProfile.getRole());
         }
 
@@ -162,7 +162,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         return new AuthenticationDetails(profile.getId(), profile.getEmail(), profile.getPassword(), profile.getRole(), true, profile.getProfilePicture());
     }
 
-    public boolean emailRegexChecker(String email){
+    public boolean emailRegexChecker(String email) {
         Pattern emailPattern = Pattern.compile("^[\\w.]+@([\\w-]+\\.)+[\\w-]{2,4}$", Pattern.CASE_INSENSITIVE);
         Matcher matcher = emailPattern.matcher(email);
         return matcher.matches();
