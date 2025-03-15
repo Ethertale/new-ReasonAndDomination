@@ -36,11 +36,7 @@ public class RegisterController {
     @PostMapping
     public String registerProfile(@Valid FormRegisterDTO formRegisterDTO, BindingResult bindingResult) {
 
-        if (bindingResult.hasErrors()) {
-            return "register";
-        }
-
-        profileService.registerProfile(formRegisterDTO.getUsername(), formRegisterDTO.getPassword(), formRegisterDTO.getEmail());
+        profileService.registerProfile(formRegisterDTO.getUsername(), formRegisterDTO.getPassword(), formRegisterDTO.getEmail(), formRegisterDTO.getConfirmPassword());
 
         return "redirect:/login";
     }

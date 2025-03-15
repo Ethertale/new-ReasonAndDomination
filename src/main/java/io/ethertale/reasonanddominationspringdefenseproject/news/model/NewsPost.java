@@ -33,9 +33,8 @@ public class NewsPost {
 
     public String setSlug(String slug) {
         this.slug = slug.toLowerCase()
-                .replaceAll("\\s", "-")
-                .replaceAll("'", "")
-                .replaceAll(",", "");
+                .replaceAll("[^a-zA-Z0-9]+","")
+                .replaceAll("\\s", "-");
         return slug;
     }
 }

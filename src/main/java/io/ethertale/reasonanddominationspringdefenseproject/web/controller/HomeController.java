@@ -7,6 +7,7 @@ import io.ethertale.reasonanddominationspringdefenseproject.forumPost.service.Fo
 import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.repo.GuidePostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.service.GuidePostService;
+import io.ethertale.reasonanddominationspringdefenseproject.news.service.NewsPostService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,12 +27,14 @@ public class HomeController {
     private final ProfileService profileService;
     private final ForumPostService forumPostService;
     private final GuidePostService guidePostService;
+    private final NewsPostService newsPostService;
 
     @Autowired
-    public HomeController(ProfileService profileService, ForumPostService forumPostService, GuidePostService guidePostService) {
+    public HomeController(ProfileService profileService, ForumPostService forumPostService, GuidePostService guidePostService, NewsPostService newsPostService) {
         this.profileService = profileService;
         this.forumPostService = forumPostService;
         this.guidePostService = guidePostService;
+        this.newsPostService = newsPostService;
     }
 
     @GetMapping
@@ -47,6 +50,7 @@ public class HomeController {
         ModelAndView modelAndView = new ModelAndView("index");
         modelAndView.addObject("user", user);
         modelAndView.addObject("forumPosts", forumPostService.findLastFive());
+        modelAndView.addObject("newsPosts", newsPostService.findLastFive());
         modelAndView.addObject("edisonspireGuides", guidePostService.getGuidePostsByType(PostType.EDISONSPIRE_FOUNDRY));
         modelAndView.addObject("geargrindGrottoGuides", guidePostService.getGuidePostsByType(PostType.GEARGRIND_GROTTO));
         modelAndView.addObject("arenaS3Guides", guidePostService.getGuidePostsByType(PostType.ARENA_3));
