@@ -5,7 +5,6 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profil
 import io.ethertale.reasonanddominationspringdefenseproject.account.service.ProfileService;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.service.ForumPostService;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
-import io.ethertale.reasonanddominationspringdefenseproject.guides.repo.GuidePostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.service.GuidePostService;
 import io.ethertale.reasonanddominationspringdefenseproject.news.service.NewsPostService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
@@ -17,8 +16,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/home")
