@@ -494,42 +494,69 @@ class ProfileServiceImplUTest {
         assertThat(existingProfile.getRole()).isEqualTo(AccountRole.USER);
         verify(profileRepo).save(existingProfile);
     }
-//    @Test
-//    void givenUser_SupportPage_updateProfileRole_Uncommon() {
-//        Profile user = Profile.builder()
-//                .id(UUID.randomUUID())
-//                .username("RedTiger52")
-//                .password("encodedPassword")
-//                .email("redtiger52@testmail.com")
-//                .role(AccountRole.USER)
-//                .status(AccountStatus.ACTIVE)
-//                .profilePicture("profpic")
-//                .heroes(new ArrayList<>())
-//                .posts(new ArrayList<>())
-//                .comments(new ArrayList<>())
-//                .createdOn(LocalDateTime.now())
-//                .build();
-//
-//        profileRepo.save(user);
-//
-//        when(profileRepo.getProfileById(user.getId())).thenReturn(user);
-//        when(profileRepo.save(any(Profile.class))).thenReturn(user);
-//
-//        profileService.updateProfileRole(user.getId(), "uncommon");
-//
-//        assertThat(user.getRole()).isEqualTo(AccountRole.TIER_UNCOMMON);
-//    }
+    @Test
+    void givenUser_SupportPage_updateProfileRole_Uncommon() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .role(AccountRole.USER)
+                .build();
+
+        when(profileRepo.findById(profileId)).thenReturn(Optional.of(existingProfile));
+
+        profileService.updateProfileRole(profileId, "uncommon");
+
+        assertThat(existingProfile.getRole()).isEqualTo(AccountRole.TIER_UNCOMMON);
+
+        verify(profileRepo).save(existingProfile);
+    }
     @Test
     void givenUser_SupportPage_updateProfileRole_Rare() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .role(AccountRole.USER)
+                .build();
 
+        when(profileRepo.findById(profileId)).thenReturn(Optional.of(existingProfile));
+
+        profileService.updateProfileRole(profileId, "rare");
+
+        assertThat(existingProfile.getRole()).isEqualTo(AccountRole.TIER_RARE);
+
+        verify(profileRepo).save(existingProfile);
     }
     @Test
     void givenUser_SupportPage_updateProfileRole_Epic() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .role(AccountRole.USER)
+                .build();
 
+        when(profileRepo.findById(profileId)).thenReturn(Optional.of(existingProfile));
+
+        profileService.updateProfileRole(profileId, "epic");
+
+        assertThat(existingProfile.getRole()).isEqualTo(AccountRole.TIER_EPIC);
+
+        verify(profileRepo).save(existingProfile);
     }
     @Test
     void givenUser_SupportPage_updateProfileRole_Legendary() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .role(AccountRole.USER)
+                .build();
 
+        when(profileRepo.findById(profileId)).thenReturn(Optional.of(existingProfile));
+
+        profileService.updateProfileRole(profileId, "legendary");
+
+        assertThat(existingProfile.getRole()).isEqualTo(AccountRole.TIER_LEGENDARY);
+
+        verify(profileRepo).save(existingProfile);
     }
     @Test
     void givenUser_getProfileById_ShouldReturnOk() {
@@ -577,14 +604,6 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileDoesNotExistException.class, () -> profileService.getProfileById(user.getId()));
     }
-
-
-    @Test
-    void getAllRoles() {
-
-    }
-
-
     @Test
     void givenExistingEmail_loadUserByUsername_ShouldReturnUserDetails() {
         Profile user = Profile.builder()
@@ -612,6 +631,20 @@ class ProfileServiceImplUTest {
         List<GrantedAuthority> authorities = new ArrayList<>(userDetails.getAuthorities());
 
         assertThat(authorities).contains(new SimpleGrantedAuthority("ROLE_USER"));
+    }
+    @Test
+    void givenNonExistingEmail_loadUserByUsername_ShouldThrowException() {
+        String email = "nonexistent@example.com";
+
+        when(profileRepo.findByEmail(email)).thenReturn(Optional.empty());
+
+        assertThrows(UsernameNotFoundException.class, () -> profileService.loadUserByUsername(email));
+    }
+    @Test
+    void getAllRoles_ShouldReturnAllRoles() {
+        List<AccountRole> roles = profileService.getAllRoles();
+
+        assertThat(roles).containsExactly(AccountRole.values());
     }
 }
 
