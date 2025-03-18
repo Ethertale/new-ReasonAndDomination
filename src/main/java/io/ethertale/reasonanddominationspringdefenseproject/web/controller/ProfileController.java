@@ -48,7 +48,7 @@ public class ProfileController {
     }
 
     @PostMapping("/{id}/edit/submit")
-    @PreAuthorize("#id == authentication.principal.userId or hasRole('ADMIN')")
+    @PreAuthorize("#id == authentication.principal.Id or hasRole('ADMIN')")
     public String saveEditProfile(EditProfile editProfile, @AuthenticationPrincipal AuthenticationDetails details, @PathVariable UUID id) {
         Profile profileToBeEdited = profileService.getProfileById(id);
         profileService.updateProfile(editProfile, profileToBeEdited);

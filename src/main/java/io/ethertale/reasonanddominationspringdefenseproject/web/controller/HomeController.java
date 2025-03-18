@@ -56,15 +56,13 @@ public class HomeController {
         return modelAndView;
     }
 
-    @GetMapping("/player-lookup")
-    public String playerLookup(Model model) {
-        return "player-lookup";
-    }
-
     @GetMapping("/about-us")
     public String aboutUsView(){
         return "aboutUs";
     }
 
-
+    @GetMapping("/redirect-to-404-page")
+    public String redirectTo404Page(){
+        return "404";
+    }
 }

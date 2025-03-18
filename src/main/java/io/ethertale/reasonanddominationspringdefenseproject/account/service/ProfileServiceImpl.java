@@ -37,9 +37,8 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     @Override
     public void registerProfile(String username, String password, String email, String confirmPassword) {
 
-        checkForExceptions(username, password, email, confirmPassword);
-
-
+        checkForExceptionsRegister(username, password, email, confirmPassword);
+        
         Profile profile = new Profile();
         profile.setUsername(username);
         profile.setPassword(passwordEncoder.encode(password));
@@ -51,7 +50,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         profileRepo.save(profile);
     }
 
-    private void checkForExceptions(String username, String password, String email, String confirmPassword) {
+    private void checkForExceptionsRegister(String username, String password, String email, String confirmPassword) {
         if (username.length() < 5 || username.length() > 15 || username.isBlank()) {
             throw new RegisterUsernameTooShortException();
         }
