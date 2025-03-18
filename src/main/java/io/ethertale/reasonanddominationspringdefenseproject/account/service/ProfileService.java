@@ -19,10 +19,6 @@ public interface ProfileService {
 
     Profile loginProfile(FormLoginDTO formLoginDTO);
 
-    boolean profileExistsByUsername(String username);
-
-    boolean profileExistsByEmail(String email);
-
     void updateProfile(EditProfile editProfile, Profile details);
 
     Profile updateProfileRole(UUID id, String tier);

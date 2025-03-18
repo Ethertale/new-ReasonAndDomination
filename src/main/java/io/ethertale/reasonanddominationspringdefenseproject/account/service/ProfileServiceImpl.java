@@ -4,10 +4,7 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.model.Accoun
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountStatus;
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.repo.ProfileRepo;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidConfirmPasswordException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidEmailException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterPasswordTooShortException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterUsernameTooShortException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.*;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
@@ -79,35 +76,25 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
 
         Optional<Profile> optionProfile = profileRepo.findByEmail(formLoginDTO.getEmail());
         if (optionProfile.isEmpty()) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new LoginProfileDoesNotExistException();
         }
 
         Profile profile = optionProfile.get();
         if (!passwordEncoder.matches(formLoginDTO.getPassword(), profile.getPassword())) {
-            throw new IllegalArgumentException("Invalid password");
+            throw new LoginProfileWrongPasswordException();
         }
         if (profile.getStatus() == AccountStatus.DEACTIVATED) {
-            throw new IllegalArgumentException("Account is deactivated");
+            throw new LoginProfileDeactivatedException();
         }
 
         return profile;
     }
 
     @Override
-    public boolean profileExistsByUsername(String username) {
-        return profileRepo.existsByUsername(username);
-    }
-
-    @Override
-    public boolean profileExistsByEmail(String email) {
-        return profileRepo.existsByEmail(email);
-    }
-
-    @Override
     public void updateProfile(EditProfile editProfile, Profile details) {
         Profile profileToEdit = profileRepo.getProfileById(details.getId());
 
-        if (editProfile.getProfilePicture().isBlank() || editProfile.getProfilePicture() == null) {
+        if (editProfile.getProfilePicture() == null || editProfile.getProfilePicture().isBlank()) {
             profileToEdit.setProfilePicture(details.getProfilePicture());
         } else {
             profileToEdit.setProfilePicture(editProfile.getProfilePicture());

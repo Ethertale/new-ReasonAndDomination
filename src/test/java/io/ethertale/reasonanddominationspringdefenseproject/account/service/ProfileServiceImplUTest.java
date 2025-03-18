@@ -4,25 +4,22 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.model.Accoun
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountStatus;
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.repo.ProfileRepo;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidConfirmPasswordException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidEmailException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterPasswordTooShortException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterUsernameTooShortException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.*;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.Comparator;
-import java.util.List;
-import java.util.UUID;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -338,34 +335,198 @@ class ProfileServiceImplUTest {
     }
 
     @Test
-    void loginProfile() {
+    void givenCorrectUser_loginProfile_ShouldReturnOk() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.ACTIVE)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        FormLoginDTO formLoginDTO = new FormLoginDTO("redtiger52@testmail.com", "123123");
+
+        when(profileRepo.findByEmail(formLoginDTO.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(formLoginDTO.getPassword(), user.getPassword())).thenReturn(true);
+
+        Profile loggedProfile = profileService.loginProfile(formLoginDTO);
+
+        assertThat(loggedProfile).isEqualTo(user);
     }
 
     @Test
-    void profileExistsByUsername() {
+    void givenNonExistentUser_loginProfile_ShouldThrowException() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.ACTIVE)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        FormLoginDTO formLoginDTO = new FormLoginDTO("redtiger52@testmail.com", "123123");
+
+        when(profileRepo.findByEmail(formLoginDTO.getEmail())).thenReturn(Optional.empty());
+
+        assertThrows(LoginProfileDoesNotExistException.class, () -> profileService.loginProfile(formLoginDTO));
     }
 
     @Test
-    void profileExistsByEmail() {
+    void givenUserWithWrongPassword_loginProfile_ShouldThrowException() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.ACTIVE)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        FormLoginDTO formLoginDTO = new FormLoginDTO("redtiger52@testmail.com", "123123");
+
+        when(profileRepo.findByEmail(formLoginDTO.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(formLoginDTO.getPassword(), user.getPassword())).thenReturn(false);
+
+        assertThrows(LoginProfileWrongPasswordException.class, () -> profileService.loginProfile(formLoginDTO));
     }
 
     @Test
-    void updateProfile() {
+    void givenUserWithDeactivatedAccount_loginProfile_ShouldThrowException() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.DEACTIVATED)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        FormLoginDTO formLoginDTO = new FormLoginDTO("redtiger52@testmail.com", "123123");
+
+        when(profileRepo.findByEmail(formLoginDTO.getEmail())).thenReturn(Optional.of(user));
+        when(passwordEncoder.matches(formLoginDTO.getPassword(), user.getPassword())).thenReturn(true);
+
+        assertThrows(LoginProfileDeactivatedException.class, () -> profileService.loginProfile(formLoginDTO));
     }
 
     @Test
-    void updateProfileRole() {
-    }
+    void givenUser_NewProfilePicture_NoNewRole_updateProfile_ShouldReturnOk() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .profilePicture("oldPic.png")
+                .role(AccountRole.USER)
+                .build();
 
-    @Test
-    void getAllRoles() {
-    }
+        EditProfile editProfile = new EditProfile();
+        editProfile.setProfilePicture("newPic.png");
+        editProfile.setRole(null);
 
-    @Test
-    void getProfileById() {
-    }
+        when(profileRepo.getProfileById(profileId)).thenReturn(existingProfile);
 
-    @Test
-    void loadUserByUsername() {
+        profileService.updateProfile(editProfile, existingProfile);
+
+        assertThat(existingProfile.getProfilePicture()).isEqualTo("newPic.png");
+        verify(profileRepo).save(existingProfile);
     }
+    @Test
+    void givenUser_NoNewProfilePictureEmpty_NoNewRole_updateProfile_ShouldReturnOk() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .profilePicture("oldPic.png")
+                .role(AccountRole.USER)
+                .build();
+
+        EditProfile editProfile = new EditProfile();
+        editProfile.setProfilePicture("");
+        editProfile.setRole(null);
+
+        when(profileRepo.getProfileById(profileId)).thenReturn(existingProfile);
+
+        profileService.updateProfile(editProfile, existingProfile);
+
+        assertThat(existingProfile.getProfilePicture()).isEqualTo("oldPic.png");
+        verify(profileRepo).save(existingProfile);
+    }
+    @Test
+    void givenUser_NoNewProfilePicture_NewRole_updateProfile_ShouldReturnOk() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .profilePicture("oldPic.png")
+                .role(AccountRole.USER)
+                .build();
+
+        EditProfile editProfile = new EditProfile();
+        editProfile.setProfilePicture(null);
+        editProfile.setRole(AccountRole.ADMIN);
+
+        when(profileRepo.getProfileById(profileId)).thenReturn(existingProfile);
+
+        profileService.updateProfile(editProfile, existingProfile);
+
+        assertThat(existingProfile.getRole()).isEqualTo(AccountRole.ADMIN);
+        verify(profileRepo).save(existingProfile);
+    }
+    @Test
+    void givenUser_NoNewProfilePictureNull_NoNewRole_updateProfile_ShouldReturnOk() {
+        UUID profileId = UUID.randomUUID();
+        Profile existingProfile = Profile.builder()
+                .id(profileId)
+                .profilePicture("oldPic.png")
+                .role(AccountRole.USER)
+                .build();
+
+        EditProfile editProfile = new EditProfile();
+        editProfile.setProfilePicture(null);
+        editProfile.setRole(null);
+
+        when(profileRepo.getProfileById(profileId)).thenReturn(existingProfile);
+
+        profileService.updateProfile(editProfile, existingProfile);
+
+        assertThat(existingProfile.getRole()).isEqualTo(AccountRole.USER);
+        verify(profileRepo).save(existingProfile);
+    }
+//
+//    @Test
+//    void updateProfileRole() {
+//    }
+//
+//    @Test
+//    void getAllRoles() {
+//    }
+//
+//    @Test
+//    void getProfileById() {
+//    }
+//
+//    @Test
+//    void loadUserByUsername() {
+//    }
 }
+
+
