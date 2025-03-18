@@ -13,6 +13,9 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
@@ -60,7 +63,6 @@ class ProfileServiceImplUTest {
         assertThat(savedProfile.getStatus()).isEqualTo(AccountStatus.ACTIVE);
         assertThat(savedProfile.getCreatedOn()).isNotNull();
     }
-
     @Test
     void givenUserToRegisterInvalidUsernameShort_whenRegister_thenExpectException() {
         // Given
@@ -75,7 +77,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterEmptyUsername_whenRegister_thenExpectException() {
         // Given
@@ -90,7 +91,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterBlankUsername_whenRegister_thenExpectException() {
         // Given
@@ -105,7 +105,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidUsernameLong_whenRegister_thenExpectException() {
         // Given
@@ -120,7 +119,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidPasswordShort_whenRegister_thenExpectException() {
         // Given
@@ -135,7 +133,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidPasswordEmpty_whenRegister_thenExpectException() {
         // Given
@@ -150,7 +147,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidPasswordBlank_whenRegister_thenExpectException() {
         // Given
@@ -165,7 +161,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidEmail_whenRegister_thenExpectException() {
         // Given
@@ -180,7 +175,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidEmailEmpty_whenRegister_thenExpectException() {
         // Given
@@ -195,7 +189,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidEmailBlank_whenRegister_thenExpectException() {
         // Given
@@ -210,7 +203,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidConfirmPassword_whenRegister_thenExpectException() {
         // Given
@@ -225,7 +217,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidConfirmPasswordEmpty_whenRegister_thenExpectException() {
         // Given
@@ -240,7 +231,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void givenUserToRegisterInvalidConfirmPasswordBlank_whenRegister_thenExpectException() {
         // Given
@@ -255,7 +245,6 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
-
     @Test
     void getAllProfiles_GivenTwoProfilesSavedToRepo_ThenExpectReturnOk() {
         //Given
@@ -294,7 +283,6 @@ class ProfileServiceImplUTest {
         assertThat(profiles).hasSize(2);
         assertThat(profiles).contains(profile1, profile2);
     }
-
     @Test
     void getAllProfilesReversed_GivenTwoProfilesSavedToRepo_ThenExpectReturnOk() {
         //Given
@@ -333,7 +321,6 @@ class ProfileServiceImplUTest {
         assertThat(profiles).hasSize(2);
         assertThat(profiles).contains(profile2, profile1);
     }
-
     @Test
     void givenCorrectUser_loginProfile_ShouldReturnOk() {
         Profile user = Profile.builder()
@@ -359,7 +346,6 @@ class ProfileServiceImplUTest {
 
         assertThat(loggedProfile).isEqualTo(user);
     }
-
     @Test
     void givenNonExistentUser_loginProfile_ShouldThrowException() {
         Profile user = Profile.builder()
@@ -382,7 +368,6 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileDoesNotExistException.class, () -> profileService.loginProfile(formLoginDTO));
     }
-
     @Test
     void givenUserWithWrongPassword_loginProfile_ShouldThrowException() {
         Profile user = Profile.builder()
@@ -406,7 +391,6 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileWrongPasswordException.class, () -> profileService.loginProfile(formLoginDTO));
     }
-
     @Test
     void givenUserWithDeactivatedAccount_loginProfile_ShouldThrowException() {
         Profile user = Profile.builder()
@@ -430,7 +414,6 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileDeactivatedException.class, () -> profileService.loginProfile(formLoginDTO));
     }
-
     @Test
     void givenUser_NewProfilePicture_NoNewRole_updateProfile_ShouldReturnOk() {
         UUID profileId = UUID.randomUUID();
@@ -511,22 +494,125 @@ class ProfileServiceImplUTest {
         assertThat(existingProfile.getRole()).isEqualTo(AccountRole.USER);
         verify(profileRepo).save(existingProfile);
     }
-//
 //    @Test
-//    void updateProfileRole() {
-//    }
+//    void givenUser_SupportPage_updateProfileRole_Uncommon() {
+//        Profile user = Profile.builder()
+//                .id(UUID.randomUUID())
+//                .username("RedTiger52")
+//                .password("encodedPassword")
+//                .email("redtiger52@testmail.com")
+//                .role(AccountRole.USER)
+//                .status(AccountStatus.ACTIVE)
+//                .profilePicture("profpic")
+//                .heroes(new ArrayList<>())
+//                .posts(new ArrayList<>())
+//                .comments(new ArrayList<>())
+//                .createdOn(LocalDateTime.now())
+//                .build();
 //
-//    @Test
-//    void getAllRoles() {
-//    }
+//        profileRepo.save(user);
 //
-//    @Test
-//    void getProfileById() {
-//    }
+//        when(profileRepo.getProfileById(user.getId())).thenReturn(user);
+//        when(profileRepo.save(any(Profile.class))).thenReturn(user);
 //
-//    @Test
-//    void loadUserByUsername() {
+//        profileService.updateProfileRole(user.getId(), "uncommon");
+//
+//        assertThat(user.getRole()).isEqualTo(AccountRole.TIER_UNCOMMON);
 //    }
+    @Test
+    void givenUser_SupportPage_updateProfileRole_Rare() {
+
+    }
+    @Test
+    void givenUser_SupportPage_updateProfileRole_Epic() {
+
+    }
+    @Test
+    void givenUser_SupportPage_updateProfileRole_Legendary() {
+
+    }
+    @Test
+    void givenUser_getProfileById_ShouldReturnOk() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.ACTIVE)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        profileRepo.save(user);
+
+        when(profileRepo.findById(user.getId())).thenReturn(Optional.of(user));
+
+        Profile profile = profileService.getProfileById(user.getId());
+
+        assertThat(profileRepo.findById(profile.getId()).isPresent());
+    }
+    @Test
+    void givenNonExistentUser_getProfileById_ShouldReturnException() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.ACTIVE)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        profileRepo.save(user);
+
+        when(profileRepo.findById(user.getId())).thenReturn(Optional.empty());
+
+        assertThrows(LoginProfileDoesNotExistException.class, () -> profileService.getProfileById(user.getId()));
+    }
+
+
+    @Test
+    void getAllRoles() {
+
+    }
+
+
+    @Test
+    void givenExistingEmail_loadUserByUsername_ShouldReturnUserDetails() {
+        Profile user = Profile.builder()
+                .id(UUID.randomUUID())
+                .username("RedTiger52")
+                .password("encodedPassword")
+                .email("redtiger52@testmail.com")
+                .role(AccountRole.USER)
+                .status(AccountStatus.ACTIVE)
+                .profilePicture("profpic")
+                .heroes(new ArrayList<>())
+                .posts(new ArrayList<>())
+                .comments(new ArrayList<>())
+                .createdOn(LocalDateTime.now())
+                .build();
+
+        when(profileRepo.findByEmail(user.getEmail())).thenReturn(Optional.of(user));
+
+        UserDetails userDetails = profileService.loadUserByUsername(user.getEmail());
+
+        assertThat(userDetails).isNotNull();
+        assertThat(userDetails.getUsername()).isEqualTo(user.getEmail());
+        assertThat(userDetails.getPassword()).isEqualTo(user.getPassword());
+
+        List<GrantedAuthority> authorities = new ArrayList<>(userDetails.getAuthorities());
+
+        assertThat(authorities).contains(new SimpleGrantedAuthority("ROLE_USER"));
+    }
 }
 
 

@@ -137,7 +137,10 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
 
     @Override
     public Profile getProfileById(UUID uuid) {
-        return profileRepo.findById(uuid).orElse(null);
+        if (profileRepo.findById(uuid).isEmpty()){
+            throw new LoginProfileDoesNotExistException();
+        }
+        return profileRepo.findById(uuid).get();
     }
 
     @Override
