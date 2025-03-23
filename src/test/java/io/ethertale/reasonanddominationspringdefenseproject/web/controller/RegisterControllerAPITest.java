@@ -8,7 +8,12 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = RegisterController.class)
@@ -29,5 +34,21 @@ class RegisterControllerAPITest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeExists("formRegisterDTO"));
+    }
+    @Test
+    void postRequestToRegisterEndPoint_shouldRegisterOK() throws Exception {
+
+        MockHttpServletRequestBuilder request = post("/register")
+                .formField("username", "RedTiger52")
+                .formField("password", "123123")
+                .formField("email", "redtiger52@mail.com")
+                .formField("confirmPassword", "123123")
+                .with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/login"));
+
+        verify(profileService, times(1)).registerProfile("RedTiger52", "123123", "redtiger52@mail.com", "123123");
     }
 }
