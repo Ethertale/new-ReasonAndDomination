@@ -16,7 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -35,7 +38,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     public void registerProfile(String username, String password, String email, String confirmPassword) {
 
         checkForExceptionsRegister(username, password, email, confirmPassword);
-        
+
         Profile profile = new Profile();
         profile.setUsername(username);
         profile.setPassword(passwordEncoder.encode(password));
@@ -134,10 +137,9 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         return List.of(AccountRole.values());
     }
 
-
     @Override
     public Profile getProfileById(UUID uuid) {
-        if (profileRepo.findById(uuid).isEmpty()){
+        if (profileRepo.findById(uuid).isEmpty()) {
             throw new LoginProfileDoesNotExistException();
         }
         return profileRepo.findById(uuid).get();
