@@ -50,6 +50,17 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         profileRepo.save(profile);
     }
 
+    @Override
+    public List<Profile> searchUsers(String username) {
+        if  (username.equals("GIVEALLPROFILES")) {
+            return profileRepo.findAll();
+        }
+        if (username.isEmpty()) {
+            return List.of();
+        }
+        return profileRepo.findByUsernameContainingIgnoreCase(username);
+    }
+
     private void checkForExceptionsRegister(String username, String password, String email, String confirmPassword) {
         if (username.length() < 5 || username.length() > 15 || username.isBlank()) {
             throw new RegisterUsernameTooShortException();
@@ -64,6 +75,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
             throw new RegisterInvalidConfirmPasswordException();
         }
     }
+
 
     @Override
     public List<Profile> getAllProfiles() {

@@ -11,6 +11,8 @@ import java.util.UUID;
 public interface ProfileService {
     void registerProfile(String username, String password, String email, String confirmPassword);
 
+    List<Profile> searchUsers(String username);
+
     List<Profile> getAllProfiles();
 
     List<Profile> getAllProfilesReversed();

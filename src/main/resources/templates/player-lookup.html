@@ -17,12 +17,23 @@
 <body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
 <nav th:replace="~{templates::header}"></nav>
 
-<div class="container d-flex justify-content-center">
-    <a href="/"><img th:src="@{imgs/logo-textonly.png}" style="width: 25vw" alt=""></a>
-    <form class="form-inline my-2 my-lg-0">
-        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+<div class="container d-flex justify-content-center flex-column align-items-center p-3">
+    <img src="https://i.ibb.co/Yd401Fd/logo-textonly.png" style="width: 25vw" alt="">
+    <form th:method="GET" th:object="${formDTO}" th:action="@{/player-lookup/search}" class="form-inline my-2 my-lg-0">
+        <input th:field="*{username}" class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
         <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
     </form>
+</div>
+
+<div class="container p-3">
+    <div class="row">
+        <th:block th:each="profile: ${foundProfiles}">
+            <div class="col-12 col-sm-6 col-md-4 col-lg-2">
+                <div class="container d-flex justify-content-center flex-column"></div>
+                <a class="d-flex flex-column justify-content-center align-items-center" th:href="@{'/profile/' + ${profile.getId()}}"><img style="width: 150px" th:src="${profile.getProfilePicture()}" alt=""><span th:text="${profile.getUsername()}"></span></a>
+            </div>
+        </th:block>
+    </div>
 </div>
 
 <footer th:replace="~{templates::footer}"></footer>
