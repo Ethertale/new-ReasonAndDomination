@@ -8,8 +8,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = SupporterController.class)
 class SupporterControllerAPITest {
@@ -21,10 +21,13 @@ class SupporterControllerAPITest {
     private ProfileService profileService;
 
     @Test
-    void getRequestToSupportUsEndpoint_shouldReturnSupportUsPage() throws Exception {
+    void getRequestToSupportUsEndpoint_shouldReturnSupportUsView() throws Exception {
 
         MockHttpServletRequestBuilder request = get("/support-us");
 
-        mockMvc.perform(request);
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(view().name("supporterPage"))
+                .andExpect(model().attributeExists("user"));
     }
 }
