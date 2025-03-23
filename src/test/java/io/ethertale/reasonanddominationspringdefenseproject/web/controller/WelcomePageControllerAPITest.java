@@ -9,6 +9,8 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.junit.jupiter.api.Assertions.*;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @WebMvcTest(controllers = WelcomePageController.class)
 class WelcomePageControllerAPITest {
@@ -21,6 +23,8 @@ class WelcomePageControllerAPITest {
 
         MockHttpServletRequestBuilder request = get("/");
 
-        mockMvc.perform(request);
+        mockMvc.perform(request)
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(view().name("welcomePage"));
     }
 }
