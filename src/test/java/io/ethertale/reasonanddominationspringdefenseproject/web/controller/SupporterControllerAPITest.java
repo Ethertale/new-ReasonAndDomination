@@ -26,7 +26,7 @@ class SupporterControllerAPITest {
         MockHttpServletRequestBuilder request = get("/support-us");
 
         mockMvc.perform(request)
-                .andExpect(status().is3xxRedirection())
+                .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("supporterPage"))
                 .andExpect(model().attributeExists("user"));
     }
