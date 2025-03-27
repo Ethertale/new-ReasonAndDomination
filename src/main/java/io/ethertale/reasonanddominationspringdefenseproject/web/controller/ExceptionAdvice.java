@@ -48,4 +48,9 @@ public class ExceptionAdvice {
     public String handleDungeonDungeonWithThisTitleDoesNotExist(){
         return "redirect:/dungeons";
     }
+    @ExceptionHandler(ForumPostContentBlankOrEmptyComment.class)
+    public String handleForumPostContentBlankOrEmptyComment(ForumPostContentBlankOrEmptyComment postRedirect, RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("error", "Comment cannot be blank or empty for post: " + postRedirect.getPostSlug());
+        return "redirect:/posts/" + postRedirect.getPostSlug();
+    }
 }
