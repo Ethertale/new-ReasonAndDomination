@@ -38,6 +38,26 @@ class ProfileServiceImplUTest {
     private ProfileServiceImpl profileService;
 
     @Test
+    void testProfileGetSet(){
+        Profile profile = new Profile();
+        profile.setId(UUID.randomUUID());
+        profile.setUsername("username");
+        profile.setPassword("password");
+        profile.setEmail("email@mail.com");
+        profile.setRole(AccountRole.USER);
+        profile.setStatus(AccountStatus.ACTIVE);
+        profile.setProfilePicture("picture");
+        profile.setHeroes(new ArrayList<>());
+        profile.setPosts(new ArrayList<>());
+        profile.setComments(new ArrayList<>());
+        profile.setCreatedOn(LocalDateTime.now());
+
+        profileRepo.save(profile);
+
+
+    }
+
+    @Test
     void givenUserToRegister_whenRegister_thenExpectOk() {
         // Given
         String username = "RedTiger52";

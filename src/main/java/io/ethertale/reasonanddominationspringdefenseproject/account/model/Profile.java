@@ -45,18 +45,4 @@ public class Profile {
     @Column(nullable = false)
     private LocalDateTime createdOn;
 
-    @Override
-    public String toString() {
-        return "Profile{" +
-                "id=" + id +
-                ", password='" + password + '\'' +
-                ", username='" + username + '\'' +
-                ", email='" + email + '\'' +
-                ", role=" + role +
-                ", status=" + status +
-                ", createdOn=" + createdOn +
-                ", heroes=" + heroes +
-                ", profilePicture='" + profilePicture + '\'' +
-                '}';
-    }
 }
