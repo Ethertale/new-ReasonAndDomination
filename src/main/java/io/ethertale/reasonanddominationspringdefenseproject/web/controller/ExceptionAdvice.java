@@ -44,4 +44,8 @@ public class ExceptionAdvice {
         redirectAttributes.addFlashAttribute("loginProfileDeactivated", "Invalid Email or Password!");
         return "redirect:/login";
     }
+    @ExceptionHandler(DungeonDungeonWithThisTitleDoesNotExist.class)
+    public String handleDungeonDungeonWithThisTitleDoesNotExist(){
+        return "redirect:/dungeons";
+    }
 }
