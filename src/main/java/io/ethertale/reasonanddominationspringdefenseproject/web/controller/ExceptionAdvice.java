@@ -53,4 +53,14 @@ public class ExceptionAdvice {
         redirectAttributes.addFlashAttribute("error", "Comment cannot be blank or empty for post: " + postRedirect.getPostSlug());
         return "redirect:/posts/" + postRedirect.getPostSlug();
     }
+    @ExceptionHandler(ItemDoesNotExistException.class)
+    public String handleItemDoesNotExistException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("itemDoesNotExist", "Item does not exist!");
+        return "redirect:/items";
+    }
+    @ExceptionHandler(GuideDoesNotExistException.class)
+    public String handleGuideDoesNotExistException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("guideDoesNotExist", "Guide does not exist!");
+        return "redirect:/guides";
+    }
 }
