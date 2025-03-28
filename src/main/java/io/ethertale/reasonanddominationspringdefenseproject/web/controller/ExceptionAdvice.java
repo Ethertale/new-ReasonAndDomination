@@ -63,4 +63,19 @@ public class ExceptionAdvice {
         redirectAttributes.addFlashAttribute("guideDoesNotExist", "Guide does not exist!");
         return "redirect:/guides";
     }
+    @ExceptionHandler(GuideFormContentIsEmptyException.class)
+    public String handleGuideFormContentIsEmptyException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("guideFormContentIsEmpty", "Content is empty!");
+        return "redirect:/guides/create-guide";
+    }
+    @ExceptionHandler(GuideFormTitleIsEmptyException.class)
+    public String handleGuideFormTitleIsEmptyException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("guideFormTitleIsEmpty", "Title is empty!");
+        return "redirect:/guides/create-guide";
+    }
+    @ExceptionHandler(NewsDoesNotExistException.class)
+    public String handleNewsDoesNotExistException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("newsDoesNotExist", "News does not exist!");
+        return "redirect:/news/create-news";
+    }
 }

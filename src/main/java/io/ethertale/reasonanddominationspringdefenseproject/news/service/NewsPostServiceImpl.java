@@ -1,6 +1,8 @@
 package io.ethertale.reasonanddominationspringdefenseproject.news.service;
 
-import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.GuideFormContentIsEmptyException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.GuideFormTitleIsEmptyException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.NewsDoesNotExistException;
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.repo.NewsPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
@@ -28,6 +30,13 @@ public class NewsPostServiceImpl implements NewsPostService {
 
     @Override
     public NewsPost createNewsPost(GuidePostForm guidePostForm) {
+        if (guidePostForm.getTitle() == null || guidePostForm.getTitle().isBlank() || guidePostForm.getTitle().isEmpty()) {
+            throw new GuideFormTitleIsEmptyException();
+        }
+        if (guidePostForm.getContent() == null || guidePostForm.getContent().isBlank() || guidePostForm.getContent().isEmpty()) {
+            throw new GuideFormContentIsEmptyException();
+        }
+
         NewsPost newsPost = NewsPost.builder()
                 .title(guidePostForm.getTitle())
                 .content(guidePostForm.getContent())
@@ -41,6 +50,9 @@ public class NewsPostServiceImpl implements NewsPostService {
 
     @Override
     public NewsPost getNewsPostBySlug(String slug) {
+        if (newsPostRepo.findBySlug(slug) == null) {
+            throw new NewsDoesNotExistException();
+        }
         return newsPostRepo.findBySlug(slug);
     }
 
