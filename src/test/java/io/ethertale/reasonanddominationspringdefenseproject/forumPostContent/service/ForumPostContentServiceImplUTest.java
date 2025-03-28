@@ -107,8 +107,4 @@ class ForumPostContentServiceImplUTest {
 
         assertThrows(ForumPostContentBlankOrEmptyComment.class, () -> forumPostContentService.createForumPostContent(forumPostRepo.findBySlug(post.getSlug()), post.getSlug(), profileRepo.getProfileById(profile.getId()), blankComment));
     }
-
-    @Test
-    void getForumPostContents() {
-    }
 }

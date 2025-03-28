@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.forumPost.service;
 
+import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.repo.ForumPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
