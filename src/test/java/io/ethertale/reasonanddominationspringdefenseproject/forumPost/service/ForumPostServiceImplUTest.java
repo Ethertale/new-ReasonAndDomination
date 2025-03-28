@@ -6,6 +6,7 @@ import io.ethertale.reasonanddominationspringdefenseproject.forumPost.repo.Forum
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.repo.ForumPostContentRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.service.ForumPostContentServiceImpl;
+import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ForumPostForm;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -91,8 +92,19 @@ class ForumPostServiceImplUTest {
     }
 
     @Test
-    void createForumPost() {
+    void givenCorrectForm_createForumPost() {
+        ForumPostForm form = new ForumPostForm();
+        form.setTitle("title");
+        form.setContent("content");
 
+        ForumPost newPost = forumPostService.createForumPost(form);
+        when(forumPostRepo.findBySlug("title")).thenReturn(newPost);
+
+        assertThat(forumPostRepo.findBySlug("title")).isNotNull();
+        assertThat(forumPostRepo.findBySlug("title").getTitle()).isEqualTo(form.getTitle());
+        assertThat(forumPostRepo.findBySlug("title").getContent()).isEqualTo(form.getContent());
+
+        verify(forumPostRepo, times(1)).save(newPost);
     }
     @Test
     void givenSixPosts_findLastFive_shouldReturnLastFivePosts() {
