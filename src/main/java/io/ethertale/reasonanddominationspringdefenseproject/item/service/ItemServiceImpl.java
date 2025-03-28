@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.item.service;
 
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.ItemDoesNotExistException;
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.Item;
 import io.ethertale.reasonanddominationspringdefenseproject.item.repo.ItemRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ItemDTO;
@@ -54,6 +55,9 @@ public class ItemServiceImpl implements ItemService {
 
     @Override
     public Item getItemBySlug(String slug) {
+        if (repo.findBySlug(slug) == null) {
+            throw new ItemDoesNotExistException();
+        }
         return repo.findBySlug(slug);
     }
 
