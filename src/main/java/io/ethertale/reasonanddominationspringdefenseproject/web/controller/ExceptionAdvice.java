@@ -1,10 +1,14 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
 import io.ethertale.reasonanddominationspringdefenseproject.exceptions.*;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.nio.file.AccessDeniedException;
 
 @ControllerAdvice
 public class ExceptionAdvice {
@@ -77,5 +81,11 @@ public class ExceptionAdvice {
     public String handleNewsDoesNotExistException(RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("newsDoesNotExist", "News does not exist!");
         return "redirect:/news/create-news";
+    }
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(AccessDeniedException.class)
+    public String handleAccessDeniedException(RedirectAttributes redirectAttributes) {
+        redirectAttributes.addFlashAttribute("accessDenied", "Access denied!");
+        return "redirect:/home";
     }
 }
