@@ -8,6 +8,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -21,10 +23,18 @@ class SupporterControllerAPITest {
     private ProfileService profileService;
 
     @Test
+    void getUnauthenticatedRequestToDatabase_Redirect() throws Exception {
+        MockHttpServletRequestBuilder request = get("/support-us");
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection());
+
+    }
+    @Test
     void getRequestToSupportUsEndpoint_shouldReturnSupportUsView() throws Exception {
 
         MockHttpServletRequestBuilder request = get("/support-us");
-
+        //TODO CHECK WHY 3XX REDIRECT INSTEAD OF 2XX SUCCESSFUL
         mockMvc.perform(request)
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("supporterPage"))
