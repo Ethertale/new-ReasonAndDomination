@@ -646,6 +646,51 @@ class ProfileServiceImplUTest {
 
         assertThat(roles).containsExactly(AccountRole.values());
     }
+    @Test
+    void givenTwoUsers_SearchUsers_CorrectWord_ReturnsUserWithContainedWord(){
+        String input = "tige";
+        Profile profile1 = Profile.builder().id(UUID.randomUUID()).username("RedTiger52").build();
+        Profile profile2 = Profile.builder().id(UUID.randomUUID()).username("OpalNeon61").build();
+
+        List<Profile> mockProfiles = List.of(profile1);
+
+        when(profileRepo.findByUsernameContainingIgnoreCase(input)).thenReturn(mockProfiles);
+
+        List<Profile> returnedProfiles = profileService.searchUsers(input);
+
+        assertThat(returnedProfiles).hasSize(1);
+        assertThat(returnedProfiles.get(0).getUsername()).isEqualTo("RedTiger52");
+        verify(profileRepo, times(1)).findByUsernameContainingIgnoreCase(input);
+    }
+    @Test
+    void givenTwoUsers_SearchUsers_NonCorrectWord_ReturnsNoUsers(){
+        String input = "tige";
+
+        List<Profile> mockProfiles = List.of();
+
+        when(profileRepo.findByUsernameContainingIgnoreCase(input)).thenReturn(mockProfiles);
+
+        List<Profile> returnedProfiles = profileService.searchUsers(input);
+
+        assertThat(returnedProfiles).hasSize(0);
+        verify(profileRepo, times(1)).findByUsernameContainingIgnoreCase(input);
+    }
+    @Test
+    void givenTwoUsers_SearchUsers_GIVEALLPROFILES_ReturnsAllUsers(){
+        String input = "GIVEALLPROFILES";
+
+        Profile profile1 = Profile.builder().id(UUID.randomUUID()).username("RedTiger52").build();
+        Profile profile2 = Profile.builder().id(UUID.randomUUID()).username("OpalNeon61").build();
+
+        List<Profile> mockProfiles = List.of(profile1, profile2);
+
+        when(profileRepo.findAll()).thenReturn(mockProfiles);
+
+        List<Profile> returnedProfiles = profileService.searchUsers(input);
+
+        assertThat(returnedProfiles).hasSize(2);
+        verify(profileRepo, times(1)).findAll();
+    }
 }
 
 

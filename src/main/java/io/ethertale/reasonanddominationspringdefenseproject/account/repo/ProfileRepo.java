@@ -13,17 +13,11 @@ public interface ProfileRepo extends JpaRepository<Profile, UUID> {
 
     List<Profile> findByUsernameContainingIgnoreCase(String username);
 
-    boolean findByUsername(String name);
+    Optional<Profile> findByUsername(String name);
 
     Optional<Profile> findByEmail(String email);
 
     boolean findByEmailAndPassword(String email, String password);
-
-    boolean existsByEmailAndPassword(String email, String password);
-
-    boolean existsByUsername(String username);
-
-    boolean existsByEmail(String email);
 
     Profile getProfileById(UUID id);
 }
