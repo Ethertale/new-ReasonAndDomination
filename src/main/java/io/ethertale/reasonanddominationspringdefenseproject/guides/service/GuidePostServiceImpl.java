@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.guides.service;
 
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.GuideDoesNotExistException;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.model.GuidePost;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.repo.GuidePostRepo;
@@ -32,7 +33,10 @@ public class GuidePostServiceImpl implements GuidePostService {
 
     @Override
     public GuidePost getGuidePostsBySlug(String slug) {
-        return guidePostRepo.findBySlug(slug);
+        if (guidePostRepo.findBySlug(slug) != null) {
+            return guidePostRepo.findBySlug(slug);
+        }
+        throw new GuideDoesNotExistException();
     }
 
     @Override

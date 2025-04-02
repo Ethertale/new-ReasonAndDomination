@@ -10,7 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -34,10 +33,6 @@ public class DatabaseDaRController {
         this.heroRaceService = heroRaceService;
     }
 
-    // hasAnyRole() - проверяваме за една от следните роли
-    // hasRole() - точно тази роля
-    // hasAuthority() - проверяваме за един permission
-    // hasAnyAuthority() - проверяваме за един от следните permissions
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView databaseDaR(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
@@ -54,10 +49,8 @@ public class DatabaseDaRController {
     }
 
     @PostMapping("/item-create")
-    public String createItemWear(@ModelAttribute ItemDTO itemDTO, Model model) {
+    public String createItemWear(@ModelAttribute ItemDTO itemDTO) {
         itemService.createItem(itemDTO);
         return "redirect:/database-dar";
     }
-
-    //TODO Return Custom Error
 }

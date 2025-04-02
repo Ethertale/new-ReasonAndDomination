@@ -2,6 +2,7 @@ package io.ethertale.reasonanddominationspringdefenseproject.dungeon.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.dungeon.model.Dungeon;
 import io.ethertale.reasonanddominationspringdefenseproject.dungeon.repo.DungeonRepo;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.DungeonDungeonWithThisTitleDoesNotExist;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,6 +25,10 @@ public class DungeonServiceImpl implements DungeonService {
 
     @Override
     public Dungeon getDungeonByTitle(String title) {
+
+        if (dungeonRepo.findDungeonBySlug(title) == null) {
+            throw new DungeonDungeonWithThisTitleDoesNotExist();
+        }
 
         return dungeonRepo.findDungeonBySlug(title);
     }

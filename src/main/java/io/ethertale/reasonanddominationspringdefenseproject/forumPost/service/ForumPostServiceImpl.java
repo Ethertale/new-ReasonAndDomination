@@ -5,6 +5,7 @@ import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.Foru
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.repo.ForumPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.repo.ForumPostContentRepo;
+import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.service.ForumPostContentServiceImpl;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ForumPostForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,11 +19,13 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     private final ForumPostRepo forumPostRepo;
     private final ForumPostContentRepo forumPostContentRepo;
+    private final ForumPostContentServiceImpl forumPostContentService;
 
     @Autowired
-    public ForumPostServiceImpl(ForumPostRepo forumPostRepo, ForumPostContentRepo forumPostContentRepo) {
+    public ForumPostServiceImpl(ForumPostRepo forumPostRepo, ForumPostContentRepo forumPostContentRepo, ForumPostContentServiceImpl forumPostContentService) {
         this.forumPostRepo = forumPostRepo;
         this.forumPostContentRepo = forumPostContentRepo;
+        this.forumPostContentService = forumPostContentService;
     }
 
     @Override
@@ -65,15 +68,9 @@ public class ForumPostServiceImpl implements ForumPostService {
 
     @Override
     public void addCommentToPost(String slug, Profile commenter, String comment) {
-        if (comment.isBlank() || comment.isEmpty()) {
-            throw new IllegalArgumentException("Comment cannot be blank or empty");
-        }
-
         ForumPost post = getForumPostBySlug(slug);
-        ForumPostContent newComment = new ForumPostContent(comment, post, commenter, LocalDateTime.now());
-        forumPostContentRepo.save(newComment);
+        ForumPostContent newComment = forumPostContentService.createForumPostContent(post, slug, commenter, comment);
         post.getComments().add(newComment);
-        System.out.println();
     }
 
     @Override

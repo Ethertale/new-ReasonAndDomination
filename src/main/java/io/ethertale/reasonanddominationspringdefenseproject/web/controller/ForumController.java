@@ -52,19 +52,18 @@ public class ForumController {
     }
 
 
-    @GetMapping("/posts")
-    public ModelAndView posting() {
-        ModelAndView modelAndView = new ModelAndView("forumPost");
-        modelAndView.setViewName("forumPost");
-        return modelAndView;
-    }
+//    @GetMapping("/posts")
+//    public ModelAndView posting() {
+//        ModelAndView modelAndView = new ModelAndView("forumPost");
+//        modelAndView.setViewName("forumPost");
+//        return modelAndView;
+//    }
 
     @GetMapping("/posts/{slug}")
     public ModelAndView getPost(@PathVariable String slug, @AuthenticationPrincipal AuthenticationDetails authenticationDetails, Model model) {
         ModelAndView modelAndView = new ModelAndView("forumPost");
         modelAndView.addObject("specPost", forumPostService.getForumPostBySlug(slug));
         modelAndView.addObject("user", profileService.getProfileById(authenticationDetails.getId()));
-//        modelAndView.addObject("comments", forumPostService.getForumPostBySlug(slug).getComments().stream().toList());
         modelAndView.addObject("comments", forumPostService.getCommentsSortedAsc(slug));
         modelAndView.setViewName("forumPost");
         return modelAndView;

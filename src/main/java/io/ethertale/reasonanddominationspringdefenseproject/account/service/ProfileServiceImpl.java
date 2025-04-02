@@ -4,10 +4,7 @@ import io.ethertale.reasonanddominationspringdefenseproject.account.model.Accoun
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountStatus;
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.account.repo.ProfileRepo;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidConfirmPasswordException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterInvalidEmailException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterPasswordTooShortException;
-import io.ethertale.reasonanddominationspringdefenseproject.exceptions.RegisterUsernameTooShortException;
+import io.ethertale.reasonanddominationspringdefenseproject.exceptions.*;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.EditProfile;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.FormLoginDTO;
@@ -19,7 +16,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -37,8 +37,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     @Override
     public void registerProfile(String username, String password, String email, String confirmPassword) {
 
-        checkForExceptions(username, password, email, confirmPassword);
-
+        checkForExceptionsRegister(username, password, email, confirmPassword);
 
         Profile profile = new Profile();
         profile.setUsername(username);
@@ -51,7 +50,18 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         profileRepo.save(profile);
     }
 
-    private void checkForExceptions(String username, String password, String email, String confirmPassword) {
+    @Override
+    public List<Profile> searchUsers(String username) {
+        if  (username.equals("GIVEALLPROFILES")) {
+            return profileRepo.findAll();
+        }
+        if (username.isEmpty()) {
+            return List.of();
+        }
+        return profileRepo.findByUsernameContainingIgnoreCase(username);
+    }
+
+    private void checkForExceptionsRegister(String username, String password, String email, String confirmPassword) {
         if (username.length() < 5 || username.length() > 15 || username.isBlank()) {
             throw new RegisterUsernameTooShortException();
         }
@@ -65,6 +75,7 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
             throw new RegisterInvalidConfirmPasswordException();
         }
     }
+
 
     @Override
     public List<Profile> getAllProfiles() {
@@ -80,35 +91,25 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
 
         Optional<Profile> optionProfile = profileRepo.findByEmail(formLoginDTO.getEmail());
         if (optionProfile.isEmpty()) {
-            throw new IllegalArgumentException("Invalid email or password");
+            throw new LoginProfileDoesNotExistException();
         }
 
         Profile profile = optionProfile.get();
         if (!passwordEncoder.matches(formLoginDTO.getPassword(), profile.getPassword())) {
-            throw new IllegalArgumentException("Invalid password");
+            throw new LoginProfileWrongPasswordException();
         }
         if (profile.getStatus() == AccountStatus.DEACTIVATED) {
-            throw new IllegalArgumentException("Account is deactivated");
+            throw new LoginProfileDeactivatedException();
         }
 
         return profile;
     }
 
     @Override
-    public boolean profileExistsByUsername(String username) {
-        return profileRepo.existsByUsername(username);
-    }
-
-    @Override
-    public boolean profileExistsByEmail(String email) {
-        return profileRepo.existsByEmail(email);
-    }
-
-    @Override
     public void updateProfile(EditProfile editProfile, Profile details) {
         Profile profileToEdit = profileRepo.getProfileById(details.getId());
 
-        if (editProfile.getProfilePicture().isBlank() || editProfile.getProfilePicture() == null) {
+        if (editProfile.getProfilePicture() == null || editProfile.getProfilePicture().isBlank()) {
             profileToEdit.setProfilePicture(details.getProfilePicture());
         } else {
             profileToEdit.setProfilePicture(editProfile.getProfilePicture());
@@ -148,10 +149,12 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
         return List.of(AccountRole.values());
     }
 
-
     @Override
     public Profile getProfileById(UUID uuid) {
-        return profileRepo.findById(uuid).orElse(null);
+        if (profileRepo.findById(uuid).isEmpty()) {
+            throw new LoginProfileDoesNotExistException();
+        }
+        return profileRepo.findById(uuid).get();
     }
 
     @Override

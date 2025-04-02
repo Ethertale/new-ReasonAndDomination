@@ -15,14 +15,6 @@ public class WebMvcConfig implements WebMvcConfigurer {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        /**
-         *         authorizeHttpRequests = конфиг за група от ендпойнти
-         *         requestMatchers = достъпд до даден ендпойнт
-         *         requestMatchers(PathRequest.toStaticResources().atCommonLocations()) = всички статични обекти да бъдат достъпни
-         *         .permitAll() = всеки може да достъпи ендпойнта
-         *         .anyRequest() = всички заявки, които не съм изброил
-         *         .authenticated() = за достъп трябва да си аутентикиран
-         */
 
         http.authorizeHttpRequests(matchers -> matchers
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
