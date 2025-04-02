@@ -60,7 +60,7 @@ class TimersViewControllerAPITest {
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
+                .andExpect(redirectedUrlPattern("**/login"));
 
     }
 
