@@ -1,9 +1,11 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
+import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountRole;
 import io.ethertale.reasonanddominationspringdefenseproject.dungeon.model.Dungeon;
 import io.ethertale.reasonanddominationspringdefenseproject.dungeon.model.DungeonSize;
 import io.ethertale.reasonanddominationspringdefenseproject.dungeon.model.DungeonType;
 import io.ethertale.reasonanddominationspringdefenseproject.dungeon.service.DungeonService;
+import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -14,12 +16,12 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import static org.junit.jupiter.api.Assertions.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -43,7 +45,10 @@ class DungeonsRESTControllerAPITest {
 
         when(dungeonService.getAllDungeons()).thenReturn(mockDungeons);
 
-        MockHttpServletRequestBuilder request = get("/api/dungeons");
+        MockHttpServletRequestBuilder request = get("/api/dungeons")
+                .with(user(new AuthenticationDetails(
+                        UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
+                ))).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is2xxSuccessful())
@@ -62,12 +67,55 @@ class DungeonsRESTControllerAPITest {
     }
     @Test
     @WithMockUser(username = "user", authorities = "USER")
-    void getDungeons_InternalServerError() throws Exception {
-        MockHttpServletRequestBuilder request = get("/api/dungeons");
-        //TODO MAKE TEST RETURN 5XX WHEN SERVICE DOES NOT WORK
-        mockMvc.perform(request)
-                .andExpect(status().is5xxServerError());
+    void getSpecificDungeon_ReturnsSpecificDungeon() throws Exception {
+        String title = "Test Dungeon";
 
-        verify(dungeonService, times(1)).getAllDungeons();
+        Dungeon mockDungeon = Dungeon.builder()
+                .id(1)
+                .name(title)
+                .description("test dungeon")
+                .level(50)
+                .dungeonType(DungeonType.DUNGEON)
+                .dungeonSize(DungeonSize.DUNGEON_10)
+                .image("image")
+                .imageMap("imageMap")
+                .slug("test-dungeon")
+                .lastBoss("Last Boss")
+                .build();
+
+        when(dungeonService.getDungeonByTitle("Test Dungeon")).thenReturn(mockDungeon);
+
+        MockHttpServletRequestBuilder request = get("/api/dungeons/{title}", title)
+                .with(user(new AuthenticationDetails(
+                        UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
+                ))).with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is2xxSuccessful())
+                .andExpect(jsonPath("$.id").isNotEmpty())
+                .andExpect(jsonPath("$.name").isNotEmpty())
+                .andExpect(jsonPath("$.description").isNotEmpty())
+                .andExpect(jsonPath("$.level").isNotEmpty())
+                .andExpect(jsonPath("$.dungeonType").isNotEmpty())
+                .andExpect(jsonPath("$.dungeonSize").isNotEmpty())
+                .andExpect(jsonPath("$.image").isNotEmpty())
+                .andExpect(jsonPath("$.imageMap").isNotEmpty())
+                .andExpect(jsonPath("$.slug").isNotEmpty())
+                .andExpect(jsonPath("$.lastBoss").isNotEmpty());
+    }
+    @Test
+    @WithMockUser(username = "user", authorities = "USER")
+    void getNonExistentDungeon_ReturnsNotFound() throws Exception {
+        String title = "Test Dungeon";
+
+        when(dungeonService.getDungeonByTitle("Test Dungeon")).thenReturn(null);
+
+        MockHttpServletRequestBuilder request = get("/api/dungeons/{title}", title)
+                .with(user(new AuthenticationDetails(
+                        UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
+                ))).with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().isNotFound());
     }
 }
