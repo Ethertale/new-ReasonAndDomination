@@ -2,7 +2,6 @@ package io.ethertale.reasonanddominationspringdefenseproject.account.model;
 
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
-import io.ethertale.reasonanddominationspringdefenseproject.playerCharacter.model.Hero;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -36,8 +35,6 @@ public class Profile {
     private AccountStatus status;
     @Column(name = "profile_picture", length = 1000)
     private String profilePicture;
-    @OneToMany(fetch = FetchType.EAGER, mappedBy = "profile")
-    private List<Hero> heroes;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "author")
     private List<ForumPost> posts;
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "owner")
