@@ -97,14 +97,23 @@ class ForumPostServiceImplUTest {
         form.setTitle("title");
         form.setContent("content");
 
+        ForumPost mockedPost = ForumPost.builder()
+                .id(UUID.randomUUID())
+                .title(form.getTitle())
+                .content(form.getContent())
+                .createdOn(LocalDateTime.now())
+                .slug("slug")
+                .build();
+
+        when(forumPostRepo.save(any(ForumPost.class))).thenReturn(mockedPost);
+
         ForumPost newPost = forumPostService.createForumPost(form);
-        when(forumPostRepo.findBySlug("title")).thenReturn(newPost);
 
-        assertThat(forumPostRepo.findBySlug("title")).isNotNull();
-        assertThat(forumPostRepo.findBySlug("title").getTitle()).isEqualTo(form.getTitle());
-        assertThat(forumPostRepo.findBySlug("title").getContent()).isEqualTo(form.getContent());
+        assertThat(newPost).isNotNull();
+        assertThat(newPost.getTitle()).isEqualTo(form.getTitle());
+        assertThat(newPost.getContent()).isEqualTo(form.getContent());
 
-        verify(forumPostRepo, times(1)).save(newPost);
+        verify(forumPostRepo, times(1)).save(any(ForumPost.class));
     }
     @Test
     void givenSixPosts_findLastFive_shouldReturnLastFivePosts() {
