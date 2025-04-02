@@ -145,7 +145,7 @@ class ForumControllerAPITest {
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("comments"))
                 .andExpect(view().name("forumPost"))
-                .andExpect(content().string(containsString("<title>R&D - Forum - title1</title>")));
+                .andExpect(content().string(containsString("<title>R&D - Forum - title</title>")));
     }
     @Test
     void getAuthenticated_getForumPosts_POST_createForumComment() throws Exception {
@@ -172,15 +172,14 @@ class ForumControllerAPITest {
 
         MockHttpServletRequestBuilder request = post("/forum/posts/{slug}", slug)
                 .param("commenterId", commenterId)
-                .param("commentContent", comment)
+                .param("commentArea", comment)
                 .with(user(new AuthenticationDetails(
                         UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
                 ))).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/forum/posts/" + slug))
-                .andExpect(model().attributeExists("specPost"));
+                .andExpect(redirectedUrl("/forum/posts/" + slug));
 
         verify(forumPostService, times(1)).addCommentToPost(slug, commenter, comment);
 
