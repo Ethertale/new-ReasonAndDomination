@@ -63,7 +63,7 @@ class RegisterControllerAPITest {
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/register"));
+                .andExpect(redirectedUrl("/login"));
 
         verify(profileService, never()).registerProfile("", "", "", "");
     }
