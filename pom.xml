@@ -63,11 +63,11 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-        <dependency>
-            <groupId>org.springframework.security</groupId>
-            <artifactId>spring-security-test</artifactId>
-            <scope>test</scope>
-        </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework.security</groupId>-->
+<!--            <artifactId>spring-security-test</artifactId>-->
+<!--            <scope>test</scope>-->
+<!--        </dependency>-->
         <!-- https://mvnrepository.com/artifact/org.projectlombok/lombok -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -165,19 +165,15 @@
                             <dataFile>target/jacoco.exec</dataFile>
                             <!-- Sets the output directory for the code coverage report. -->
                             <outputDirectory>target/jacoco-ut</outputDirectory>
+                            <excludes>
+                                <exclude>**/model/*.class</exclude>
+                                <exclude>**/exceptions/*.class</exclude>
+                            </excludes>
                         </configuration>
                     </execution>
                 </executions>
                 <configuration>
-                    <systemPropertyVariables>
-                        <jacoco-agent.destfile>target/jacoco.exec</jacoco-agent.destfile>
-                    </systemPropertyVariables>
-                    <excludes>
-                        <exclude>**/io/ethertale/reasonanddominationdefenseproject/account/model/*.class</exclude>
-                        <exclude>**/io/ethertale/reasonanddominationdefenseproject/dungeon/model/*.class</exclude>
-                        <exclude>**/io/ethertale/reasonanddominationdefenseproject/dungeonTimerClient/model/*.class</exclude>
-                        <exclude>**/io/ethertale/reasonanddominationdefenseproject/exceptions/*.class</exclude>
-                    </excludes>
+
                 </configuration>
             </plugin>
 
