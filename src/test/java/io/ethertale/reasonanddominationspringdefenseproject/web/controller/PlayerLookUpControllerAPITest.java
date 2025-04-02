@@ -40,10 +40,12 @@ class PlayerLookUpControllerAPITest {
     }
     @Test
     void getAuthenticatedRequestToPlayerLookUp_ReturnPlayerLookUpPage() throws Exception {
-        MockHttpServletRequestBuilder request = get("/player-lookup")
+        String username = "test";
+
+        MockHttpServletRequestBuilder request = get("/player-lookup/search")
                 .with(user(new AuthenticationDetails(
                         UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
-                ))).with(csrf());
+                ))).param("userInput", username).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is2xxSuccessful())
@@ -53,18 +55,18 @@ class PlayerLookUpControllerAPITest {
     }
     @Test
     void getAuthenticatedRequestToPlayerLookUp_INPUT_ReturnPlayerList() throws Exception {
-        String inputUsername = "tiger";
+        String username = "tiger";
 
         List<Profile> foundUsers = List.of(
                 Profile.builder().id(UUID.randomUUID()).username("tiger52").profilePicture("profile").build()
         );
 
-        when(profileService.searchUsers(inputUsername)).thenReturn(foundUsers);
+        when(profileService.searchUsers(username)).thenReturn(foundUsers);
 
-        MockHttpServletRequestBuilder request = get("/player-lookup")
+        MockHttpServletRequestBuilder request = get("/player-lookup/search")
                 .with(user(new AuthenticationDetails(
                         UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
-                ))).with(csrf());
+                ))).param("userInput", username).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is2xxSuccessful())
@@ -74,16 +76,16 @@ class PlayerLookUpControllerAPITest {
     }
     @Test
     void getAuthenticatedRequestToPlayerLookUp_NOINPUT_ReturnPlayerList() throws Exception {
-        String inputUsername = "";
+        String username = "";
 
         List<Profile> foundUsers = List.of();
 
-        when(profileService.searchUsers(inputUsername)).thenReturn(foundUsers);
+        when(profileService.searchUsers(username)).thenReturn(foundUsers);
 
-        MockHttpServletRequestBuilder request = get("/player-lookup")
+        MockHttpServletRequestBuilder request = get("/player-lookup/search")
                 .with(user(new AuthenticationDetails(
                         UUID.randomUUID(), "user@mail.com", "password", AccountRole.USER, true, "profilePic"
-                ))).with(csrf());
+                ))).param("userInput", username).with(csrf());
 
         mockMvc.perform(request)
                 .andExpect(status().is2xxSuccessful())

@@ -34,7 +34,7 @@ public class PlayerLookUpController {
 
 
     @GetMapping("/search")
-    public ModelAndView playerLookupResults(@RequestParam String username) {
+    public ModelAndView playerLookupResults(@RequestParam("userInput") String username) {
         ModelAndView modelAndView = new ModelAndView("player-lookup");
         modelAndView.addObject("formDTO", new ProfileLookup());
         modelAndView.addObject("foundProfiles", profileService.searchUsers(username));
