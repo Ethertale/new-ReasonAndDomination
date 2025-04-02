@@ -65,6 +65,6 @@ class RegisterControllerAPITest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login"));
 
-        verify(profileService, never()).registerProfile("", "", "", "");
+        verify(profileService, times(1)).registerProfile("", "", "", "");
     }
 }
