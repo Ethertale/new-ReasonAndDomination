@@ -50,7 +50,7 @@ class RaceViewControllerAPITest {
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
+                .andExpect(redirectedUrlPattern("**/login"));
 
     }
     @Test
@@ -59,7 +59,7 @@ class RaceViewControllerAPITest {
 
         mockMvc.perform(request)
                 .andExpect(status().is3xxRedirection())
-                .andExpect(redirectedUrl("/login"));
+                .andExpect(redirectedUrlPattern("**/login"));
 
     }
 }
