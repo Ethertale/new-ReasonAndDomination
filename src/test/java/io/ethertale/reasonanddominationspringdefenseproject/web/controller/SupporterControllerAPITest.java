@@ -17,6 +17,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = SupporterController.class)
@@ -52,5 +53,24 @@ class SupporterControllerAPITest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("supporterPage"))
                 .andExpect(model().attributeExists("user"));
+    }
+    @Test
+    void getRequestToSupportUsEndpoint_UpdateRole_RedirectToProfile() throws Exception {
+        UUID userId = UUID.randomUUID();
+        Profile mockProfile = Profile.builder().id(userId).role(AccountRole.USER).build();
+        when(profileService.getProfileById(any(UUID.class))).thenReturn(mockProfile);
+
+        AccountRole updateRole = AccountRole.TIER_EPIC;
+
+        MockHttpServletRequestBuilder request = post("/support-us/{tier}", updateRole.name())
+                .with(user(new AuthenticationDetails(
+                        userId, "user@mail.com", "password", AccountRole.USER, true, "profilePic"
+                ))).with(csrf());
+
+        mockMvc.perform(request)
+                .andExpect(status().is3xxRedirection())
+                .andExpect(redirectedUrl("/profile/" + mockProfile.getId()));
+
+        verify(profileService, times(1)).updateProfileRole(userId, updateRole.name());
     }
 }
