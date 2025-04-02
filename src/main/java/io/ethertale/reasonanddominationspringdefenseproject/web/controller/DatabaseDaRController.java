@@ -34,10 +34,6 @@ public class DatabaseDaRController {
         this.heroRaceService = heroRaceService;
     }
 
-    // hasAnyRole() - проверяваме за една от следните роли
-    // hasRole() - точно тази роля
-    // hasAuthority() - проверяваме за един permission
-    // hasAnyAuthority() - проверяваме за един от следните permissions
     @GetMapping
     @PreAuthorize("hasRole('ADMIN')")
     public ModelAndView databaseDaR(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
@@ -54,10 +50,8 @@ public class DatabaseDaRController {
     }
 
     @PostMapping("/item-create")
-    public String createItemWear(@ModelAttribute ItemDTO itemDTO, Model model) {
+    public String createItemWear(@ModelAttribute ItemDTO itemDTO) {
         itemService.createItem(itemDTO);
         return "redirect:/database-dar";
     }
-
-    //TODO Return Custom Error
 }

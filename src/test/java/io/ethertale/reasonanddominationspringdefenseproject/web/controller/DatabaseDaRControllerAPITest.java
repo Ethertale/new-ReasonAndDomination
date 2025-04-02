@@ -14,7 +14,6 @@ import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ItemDTO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
@@ -27,6 +26,7 @@ import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
@@ -94,16 +94,17 @@ class DatabaseDaRControllerAPITest {
         verify(itemService, never()).getAllItems();
     }
     @Test
+    @WithMockUser(username = "admin", authorities = "ADMIN")
     void postAuthorizedRequest_createItem_Admin_ShouldCreateItem() throws Exception {
 
         AuthenticationDetails principal = new AuthenticationDetails(UUID.randomUUID(), "gatara@mail.com", "123123", AccountRole.ADMIN, true, "profilePic");
 
-        MockHttpServletRequestBuilder request = get("/database-dar")
+        MockHttpServletRequestBuilder request = post("/database-dar/item-create")
                 .with(user(principal))
                 .with(csrf());
 
         mockMvc.perform(request)
-                .andExpect(status().is2xxSuccessful());
+                .andExpect(status().is3xxRedirection());
 
         ItemDTO itemDTO = new ItemDTO();
         itemDTO.setName("Test");
@@ -117,15 +118,29 @@ class DatabaseDaRControllerAPITest {
         itemDTO.setIntellect(1);
         itemDTO.setType(ItemType.FINGER);
         itemDTO.setArmour(1);
-        itemDTO.setDescription("1");
         itemDTO.setImageLink("1");
         itemDTO.setRarity(ItemRarity.EPIC);
 
+        Item itemObject = Item.builder()
+                .name(itemDTO.getName())
+                .description(itemDTO.getDescription())
+                .minDamage(itemDTO.getMinDamage())
+                .maxDamage(itemDTO.getMaxDamage())
+                .spirit(itemDTO.getSpirit())
+                .strength(itemDTO.getStrength())
+                .agility(itemDTO.getAgility())
+                .stamina(itemDTO.getStamina())
+                .intellect(itemDTO.getIntellect())
+                .type(itemDTO.getType())
+                .armour(itemDTO.getArmour())
+                .image(itemDTO.getImageLink())
+                .rarity(itemDTO.getRarity())
+                .build();
+
+        when(itemService.createItem(itemDTO)).thenReturn(itemObject);
+
         Item newItem = itemService.createItem(itemDTO);
 
-        when(itemService.createItem(itemDTO)).thenReturn(newItem);
-
-        assertThat(newItem).isNotNull();
         assertThat(newItem.getName()).isEqualTo(itemDTO.getName());
         assertThat(newItem.getDescription()).isEqualTo(itemDTO.getDescription());
 
