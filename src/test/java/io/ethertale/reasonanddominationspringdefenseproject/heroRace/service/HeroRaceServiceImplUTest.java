@@ -2,7 +2,6 @@ package io.ethertale.reasonanddominationspringdefenseproject.heroRace.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.heroRace.model.HeroRace;
 import io.ethertale.reasonanddominationspringdefenseproject.heroRace.repo.HeroRaceRepo;
-import io.ethertale.reasonanddominationspringdefenseproject.playerCharacter.repo.HeroRepository;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
