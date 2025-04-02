@@ -1,5 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
+import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountRole;
 import io.ethertale.reasonanddominationspringdefenseproject.news.service.NewsPostService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.GuidePostForm;
@@ -30,7 +31,10 @@ public class NewsController {
     }
 
     @GetMapping("/create-news")
-    public ModelAndView guide(){
+    public ModelAndView guide(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+        if (!authenticationDetails.getRole().equals(AccountRole.ADMIN)) {
+            return new ModelAndView("redirect:/news");
+        }
         ModelAndView modelAndView = new ModelAndView("createNewsPost");
         modelAndView.addObject("NewsPostForm", new NewsPostForm());
         return modelAndView;
