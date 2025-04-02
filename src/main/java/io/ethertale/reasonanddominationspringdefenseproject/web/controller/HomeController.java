@@ -61,8 +61,4 @@ public class HomeController {
         return "aboutUs";
     }
 
-    @GetMapping("/redirect-to-404-page")
-    public String redirectTo404Page(){
-        return "404";
-    }
 }

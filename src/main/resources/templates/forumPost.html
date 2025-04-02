@@ -8,7 +8,7 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css"
           integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" th:href="@{/css/forumPost-style.css}" type="text/css">
-    <title th:text="'R&D - Forum - ' + ${specPost.getTitle()}"></title>
+    <title th:text="'R&D - Forum - ' + ${specPost.title}"></title>
     <style>
         * {
             color: white;
@@ -22,15 +22,15 @@
 <nav th:replace="~{templates::header}"></nav>
 
 <div class="container border mt-5" th:object="${specPost}">
-    <h2 th:text="${specPost.getTitle()}"></h2>
-    <small th:text="${specPost.getCreatedOn()}"></small>
+    <h2 th:text="${specPost.title}"></h2>
+    <small th:text="${specPost.createdOn}"></small>
     <div class="container border-top">
-        <p th:text="${specPost.getContent()}"></p>
+        <p th:text="${specPost.content}"></p>
     </div>
 </div>
 <div class="container">
-    <form th:method="post" th:object="${user}" th:action="@{'/forum/posts/' + ${specPost.getSlug()}}">
-        <input type="hidden" name="commenterId" th:value="${user.getId()}">
+    <form th:method="post" th:object="${user}" th:action="@{'/forum/posts/' + ${specPost.slug}}">
+        <input type="hidden" name="commenterId" th:value="${user.id}">
         <div class="form-group">
             <label for="commentArea"></label>
             <textarea class="form-control" name="commentArea" id="commentArea" rows="5" placeholder="Comment here..."></textarea>
@@ -41,23 +41,23 @@
 <div class="container pt-2" th:object="${user}" th:each="comment: ${comments}">
     <div class="container border d-flex flex-row">
         <div class="container d-flex justify-content-center flex-column align-items-center col-2">
-            <a th:href="@{'/profile/' + ${comment.getOwner().getId()}}"><h5 th:text="${comment.getOwner().getUsername()}"></h5></a>
-            <img class="img-fluid" style="width: 64px" th:src="${comment.getOwner().getProfilePicture()}" alt="">
-            <small th:if="${comment.getOwner().getRole().name()} == 'USER'">USER</small>
-            <small style="color: green" th:if="${comment.getOwner().getRole().name()} == 'TIER_UNCOMMON'">UNCOMMON</small>
-            <small style="color: royalblue;" th:if="${comment.getOwner().getRole().name()} == 'TIER_RARE'">RARE</small>
-            <small style="color: rebeccapurple" th:if="${comment.getOwner().getRole().name()} == 'TIER_EPIC'">EPIC</small>
-            <small style="color: darkorange" th:if="${comment.getOwner().getRole().name()} == 'TIER_LEGENDARY'">LEGENDARY</small>
-            <small style="color: #d3a862" th:if="${comment.getOwner().getRole().name()} == 'ADMIN'">ADMIN</small>
+            <a th:href="@{'/profile/' + ${comment.owner.id}}"><h5 th:text="${comment.owner.username}"></h5></a>
+            <img class="img-fluid" style="width: 64px" th:src="${comment.owner.profilePicture}" alt="">
+            <small th:if="${comment.owner.role.name()} == 'USER'">USER</small>
+            <small style="color: green" th:if="${comment.owner.role.name()} == 'TIER_UNCOMMON'">UNCOMMON</small>
+            <small style="color: royalblue;" th:if="${comment.owner.role.name()} == 'TIER_RARE'">RARE</small>
+            <small style="color: rebeccapurple" th:if="${comment.owner.role.name()} == 'TIER_EPIC'">EPIC</small>
+            <small style="color: darkorange" th:if="${comment.owner.role.name()} == 'TIER_LEGENDARY'">LEGENDARY</small>
+            <small style="color: #d3a862" th:if="${comment.owner.role.name()} == 'ADMIN'">ADMIN</small>
         </div>
         <div class="container p-3 d-flex flex-column align-items-start">
-            <small th:text="${comment.getCreatedOn().getMonth()}
+            <small th:text="${comment.createdOn.getMonth()}
              + ' '
-             + ${comment.getCreatedOn().getDayOfMonth()}
+             + ${comment.createdOn.getDayOfMonth()}
              + ' '
-             + ${comment.getCreatedOn().getYear()}"></small>
+             + ${comment.createdOn.getYear()}"></small>
             <div class="container border-top">
-                <p th:text="${comment.getContent()}"></p>
+                <p th:text="${comment.content}"></p>
             </div>
         </div>
 
