@@ -10,7 +10,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -32,6 +31,7 @@ class RaceViewControllerAPITest {
                 .andExpect(status().isOk())
                 .andExpect(view().name("raceView"));
     }
+
     @Test
     void getClassesPage_Authenticated_ReturnClassesPage() throws Exception {
         MockHttpServletRequestBuilder request = get("/classes")
@@ -53,6 +53,7 @@ class RaceViewControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getUnauthenticatedRequestToClasses_Redirect() throws Exception {
         MockHttpServletRequestBuilder request = get("/classes");

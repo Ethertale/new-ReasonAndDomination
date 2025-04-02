@@ -1,6 +1,5 @@
 package io.ethertale.reasonanddominationspringdefenseproject.guides.service;
 
-import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.model.GuidePost;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
 import io.ethertale.reasonanddominationspringdefenseproject.guides.repo.GuidePostRepo;
@@ -13,7 +12,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -49,6 +47,7 @@ class GuidePostServiceImplUTest {
         verify(guidePostRepo, times(1)).findAll();
 
     }
+
     @Test
     void givenNoGuides_getAllGuidePosts_ReturnsEmptyGuides() {
         when(guidePostRepo.findAll()).thenReturn(List.of());
@@ -58,6 +57,7 @@ class GuidePostServiceImplUTest {
 
         verify(guidePostRepo, times(1)).findAll();
     }
+
     @Test
     void givenOneGuide_getGuidePostsBySlug_ReturnsGuideBySlug() {
         GuidePost guide1 = GuidePost.builder().id(UUID.randomUUID()).slug("test").build();
@@ -70,6 +70,7 @@ class GuidePostServiceImplUTest {
         verify(guidePostRepo, times(2)).findBySlug("test");
 
     }
+
     @Test
     void givenWrongGuide_getGuidePostsBySlug_ShouldThrowException() {
         when(guidePostRepo.findBySlug("test")).thenReturn(null);
@@ -78,6 +79,7 @@ class GuidePostServiceImplUTest {
 
         verify(guidePostRepo, times(1)).findBySlug("test");
     }
+
     @Test
     void givenGoodForm_createGuidePost_CreateGuidePost() {
         when(session.getAttribute("user_name")).thenReturn("test_user");
@@ -111,6 +113,7 @@ class GuidePostServiceImplUTest {
         assertThat(createdPost.getType()).isEqualTo(post.getType());
         assertThat(createdPost.getAuthor()).isEqualTo(post.getAuthor());
     }
+
     @Test
     void givenThreeGuidePosts_getGuidePostsByType_ReturnsThreeGuidePosts() {
         GuidePost post1 = GuidePost.builder()
@@ -147,6 +150,7 @@ class GuidePostServiceImplUTest {
 
         verify(guidePostRepo).findAll();
     }
+
     @Test
     void givenZeroGuidePosts_getGuidePostsByType_ReturnsZeroGuidePosts() {
         when(guidePostRepo.findAll()).thenReturn(List.of());

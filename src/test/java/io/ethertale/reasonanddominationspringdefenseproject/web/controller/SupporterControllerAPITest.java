@@ -37,6 +37,7 @@ class SupporterControllerAPITest {
                 .andExpect(status().is3xxRedirection());
 
     }
+
     @Test
     void getRequestToSupportUsEndpoint_shouldReturnSupportUsView() throws Exception {
 
@@ -54,6 +55,7 @@ class SupporterControllerAPITest {
                 .andExpect(view().name("supporterPage"))
                 .andExpect(model().attributeExists("user"));
     }
+
     @Test
     void getRequestToSupportUsEndpoint_UpdateRole_RedirectToProfile() throws Exception {
         UUID userId = UUID.randomUUID();

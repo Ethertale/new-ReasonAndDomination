@@ -30,6 +30,7 @@ class LoginControllerAPITest {
                 .andExpect(view().name("login"))
                 .andExpect(model().attributeExists("form"));
     }
+
     @Test
     void getRequestToLoginPageWithErrorParam_shouldReturnLoginViewAndErrorMessageAttribute() throws Exception {
 

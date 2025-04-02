@@ -65,6 +65,7 @@ class DungeonsRESTControllerAPITest {
 
         verify(dungeonService, times(1)).getAllDungeons();
     }
+
     @Test
     @WithMockUser(username = "user", authorities = "USER")
     void getSpecificDungeon_ReturnsSpecificDungeon() throws Exception {
@@ -103,6 +104,7 @@ class DungeonsRESTControllerAPITest {
                 .andExpect(jsonPath("$.slug").isNotEmpty())
                 .andExpect(jsonPath("$.lastBoss").isNotEmpty());
     }
+
     @Test
     @WithMockUser(username = "user", authorities = "USER")
     void getNonExistentDungeon_ReturnsNotFound() throws Exception {

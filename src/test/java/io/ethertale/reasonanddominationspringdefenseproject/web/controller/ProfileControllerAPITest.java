@@ -16,7 +16,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -43,6 +42,7 @@ class ProfileControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getAuthenticatedRequestToProfile_ReturnProfile() throws Exception {
         UUID userId = UUID.randomUUID();
@@ -70,6 +70,7 @@ class ProfileControllerAPITest {
                 .andExpect(model().attributeExists("user"))
                 .andExpect(model().attributeExists("principal"));
     }
+
     @Test
     void getAuthenticatedUser_EditProfile_ReturnEditProfileView() throws Exception {
         UUID userId = UUID.randomUUID();

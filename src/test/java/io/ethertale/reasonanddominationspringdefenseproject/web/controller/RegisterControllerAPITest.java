@@ -8,8 +8,8 @@ import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -34,6 +34,7 @@ class RegisterControllerAPITest {
                 .andExpect(view().name("register"))
                 .andExpect(model().attributeExists("formRegisterDTO"));
     }
+
     @Test
     void postRequestToRegisterEndPoint_shouldRegisterOK() throws Exception {
 
@@ -50,6 +51,7 @@ class RegisterControllerAPITest {
 
         verify(profileService, times(1)).registerProfile("RedTiger52", "123123", "redtiger52@mail.com", "123123");
     }
+
     //TODO CHECK redirects to /login instead of /register
     @Test
     void postRequestToRegisterEndPointWithInvalidData_shouldReturnRegisterView() throws Exception {

@@ -11,7 +11,6 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -23,7 +22,7 @@ class HeroRaceServiceImplUTest {
     private HeroRaceServiceImpl heroRaceService;
 
     @Test
-    void  getAllHeroRaces_ReturnsAllHeroRaces() {
+    void getAllHeroRaces_ReturnsAllHeroRaces() {
         HeroRace race1 = new HeroRace();
         HeroRace race2 = new HeroRace();
         HeroRace race3 = new HeroRace();

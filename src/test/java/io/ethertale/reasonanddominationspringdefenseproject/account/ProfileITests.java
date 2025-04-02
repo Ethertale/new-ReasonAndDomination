@@ -15,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -32,7 +31,7 @@ public class ProfileITests {
     private ProfileServiceImpl profileService;
 
     @Test
-    void registerUser_OK(){
+    void registerUser_OK() {
 
         FormRegisterDTO formRegisterDTO = new FormRegisterDTO();
         formRegisterDTO.setUsername("username");
@@ -52,6 +51,7 @@ public class ProfileITests {
         assertThat(registeredProfile.getRole()).isEqualTo(AccountRole.USER);
 
     }
+
     @Test
     void givenTwoUsers_SearchUsers_CorrectWord_ReturnsUserWithContainedWord() {
         Profile profile1 = Profile.builder()

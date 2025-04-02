@@ -34,6 +34,7 @@ class DungeonsViewControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getAuthenticatedRequestToDungeons_getDungeonsView() throws Exception {
         MockHttpServletRequestBuilder request = get("/dungeons")
@@ -45,10 +46,10 @@ class DungeonsViewControllerAPITest {
                 .andExpect(status().is2xxSuccessful())
                 .andExpect(view().name("dungeons"));
     }
+
     @Test
     void getAuthenticatedRequestToSpecificDungeon_getSpecificDungeonsView() throws Exception {
         String title = "test-dungeon";
-
 
 
         MockHttpServletRequestBuilder request = get("/dungeons/{title}", title)

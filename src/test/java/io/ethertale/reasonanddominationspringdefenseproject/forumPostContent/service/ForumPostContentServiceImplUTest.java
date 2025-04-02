@@ -18,8 +18,9 @@ import java.util.ArrayList;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
 class ForumPostContentServiceImplUTest {
@@ -34,7 +35,7 @@ class ForumPostContentServiceImplUTest {
     private ForumPostContentServiceImpl forumPostContentService;
 
     @Test
-    void givenValidComment_shouldCreateOK(){
+    void givenValidComment_shouldCreateOK() {
         String validComment = "valid comment";
 
         Profile profile = Profile.builder().id(UUID.randomUUID()).build();
@@ -61,8 +62,9 @@ class ForumPostContentServiceImplUTest {
         assertNotNull(testComment);
         assertThat(validComment).isEqualTo(testComment.getContent());
     }
+
     @Test
-    void givenBlankComment_shouldThrowException(){
+    void givenBlankComment_shouldThrowException() {
         String blankComment = " ";
 
         Profile profile = Profile.builder().id(UUID.randomUUID()).build();
@@ -84,8 +86,9 @@ class ForumPostContentServiceImplUTest {
 
         assertThrows(ForumPostContentBlankOrEmptyComment.class, () -> forumPostContentService.createForumPostContent(forumPostRepo.findBySlug(post.getSlug()), post.getSlug(), profileRepo.getProfileById(profile.getId()), blankComment));
     }
+
     @Test
-    void givenEmptyComment_shouldThrowException(){
+    void givenEmptyComment_shouldThrowException() {
         String blankComment = "";
 
         Profile profile = Profile.builder().id(UUID.randomUUID()).build();

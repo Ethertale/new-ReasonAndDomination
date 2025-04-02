@@ -13,7 +13,6 @@ import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 
 import java.util.List;
-import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.Assert.assertThrows;
@@ -80,6 +79,7 @@ class ItemServiceImplUTest {
         assertThat(itemRepo.findByName("test").getMinDamage()).isEqualTo(itemDTO.getMinDamage());
         assertThat(itemRepo.findByName("test").getMaxDamage()).isEqualTo(itemDTO.getMaxDamage());
     }
+
     @Test
     void givenTwoItems_getAllItems_ReturnsTwoItems() {
         Item item1 = Item.builder().id(1).name("test1").build();
@@ -96,6 +96,7 @@ class ItemServiceImplUTest {
         assertThat(allItems.get(0).getName()).isEqualTo(item1.getName());
         assertThat(allItems.get(1).getName()).isEqualTo(item2.getName());
     }
+
     @Test
     void givenZeroItems_getAllItems_ReturnsEmptyList() {
         when(itemRepo.findAll()).thenReturn(List.of());
@@ -104,6 +105,7 @@ class ItemServiceImplUTest {
         assertThat(allItems).isNotNull();
         assertThat(allItems.size()).isEqualTo(0);
     }
+
     @Test
     void givenTwoItems_getAllItemsReversed_ReturnsTwoItemsReversed() {
         Item item1 = Item.builder().id(1).name("test1").build();
@@ -120,6 +122,7 @@ class ItemServiceImplUTest {
         assertThat(allItems.get(0).getName()).isEqualTo(item2.getName());
         assertThat(allItems.get(1).getName()).isEqualTo(item1.getName());
     }
+
     @Test
     void givenOneItem_getItemBySlug_ReturnsItemBySlug() {
         Item item = Item.builder().id(1).slug("test").build();
@@ -134,6 +137,7 @@ class ItemServiceImplUTest {
 
         verify(itemRepo, times(2)).findBySlug("test");
     }
+
     @Test
     void givenWrongItem_getItemBySlug_ShouldThrowException() {
         Item item = Item.builder().id(1).slug("test").build();

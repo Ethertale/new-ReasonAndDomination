@@ -16,12 +16,10 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @WebMvcTest(controllers = ItemsController.class)
@@ -41,6 +39,7 @@ class ItemsControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getUnauthenticatedRequestToSpecificItemPage_Redirect() throws Exception {
         String title = "title";
@@ -51,6 +50,7 @@ class ItemsControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getAuthenticatedRequestToItemsPage_GetItemsPage() throws Exception {
         List<Item> mockedItems = List.of(
@@ -71,6 +71,7 @@ class ItemsControllerAPITest {
                 .andExpect(view().name("items"))
                 .andExpect(model().attributeExists("items"));
     }
+
     @Test
     void getAuthenticatedRequestToSpecificItemPage_GetSpecificItemPage() throws Exception {
         String title = "title";

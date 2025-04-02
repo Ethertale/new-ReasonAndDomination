@@ -1,8 +1,6 @@
 package io.ethertale.reasonanddominationspringdefenseproject.web.controller;
 
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.AccountRole;
-import io.ethertale.reasonanddominationspringdefenseproject.guides.model.GuidePost;
-import io.ethertale.reasonanddominationspringdefenseproject.guides.model.PostType;
 import io.ethertale.reasonanddominationspringdefenseproject.news.model.NewsPost;
 import io.ethertale.reasonanddominationspringdefenseproject.news.service.NewsPostService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
@@ -18,14 +16,12 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 
 @WebMvcTest(controllers = NewsController.class)
 class NewsControllerAPITest {
@@ -136,6 +132,7 @@ class NewsControllerAPITest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/news"));
     }
+
     @Test
     void getAuthenticated_getGuidePost_ReturnGuidePost() throws Exception {
         String slug = "title";

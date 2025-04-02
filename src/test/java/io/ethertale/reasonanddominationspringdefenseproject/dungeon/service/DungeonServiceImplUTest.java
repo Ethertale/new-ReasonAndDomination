@@ -26,7 +26,7 @@ class DungeonServiceImplUTest {
     private DungeonServiceImpl dungeonService;
 
     @Test
-    void getAllDungeons_GivenTwoDungeonsSavedToRepo_ThenExpectReturnOK(){
+    void getAllDungeons_GivenTwoDungeonsSavedToRepo_ThenExpectReturnOK() {
         Dungeon dungeon1 = Dungeon.builder()
                 .id(1)
                 .name("Dungeon 1")
@@ -63,11 +63,9 @@ class DungeonServiceImplUTest {
         assertThat(dungeons).hasSize(2);
         assertThat(dungeons).contains(dungeon1, dungeon2);
     }
-//    @Test
-//    void getDungeonByTitle() {
-//    }\
+
     @Test
-    void givenCorrectTitleExistingDungeon_getDungeonByTitle_shouldReturnDungeon(){
+    void givenCorrectTitleExistingDungeon_getDungeonByTitle_shouldReturnDungeon() {
         Dungeon dungeon = Dungeon.builder()
                 .id(1)
                 .name("Dungeon 1")
@@ -89,8 +87,9 @@ class DungeonServiceImplUTest {
 
         assertThat(dungeonByTitle.getSlug()).isEqualTo(dungeon.getSlug());
     }
+
     @Test
-    void givenIncorrectTitle_getDungeonByTitle_shouldThrowException(){
+    void givenIncorrectTitle_getDungeonByTitle_shouldThrowException() {
         Dungeon dungeon = Dungeon.builder()
                 .id(1)
                 .name("Dungeon 1")

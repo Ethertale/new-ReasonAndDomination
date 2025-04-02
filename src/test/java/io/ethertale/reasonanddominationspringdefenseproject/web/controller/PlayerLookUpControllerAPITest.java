@@ -14,7 +14,6 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -38,6 +37,7 @@ class PlayerLookUpControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getAuthenticatedRequestToPlayerLookUp_ReturnPlayerLookUpPage() throws Exception {
         String username = "test";
@@ -53,6 +53,7 @@ class PlayerLookUpControllerAPITest {
                 .andExpect(model().attributeExists("formDTO"))
                 .andExpect(model().attributeExists("foundProfiles"));
     }
+
     @Test
     void getAuthenticatedRequestToPlayerLookUp_INPUT_ReturnPlayerList() throws Exception {
         String username = "tiger";
@@ -74,6 +75,7 @@ class PlayerLookUpControllerAPITest {
                 .andExpect(model().attributeExists("formDTO"))
                 .andExpect(model().attributeExists("foundProfiles"));
     }
+
     @Test
     void getAuthenticatedRequestToPlayerLookUp_NOINPUT_ReturnPlayerList() throws Exception {
         String username = "";

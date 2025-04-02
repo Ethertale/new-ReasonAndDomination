@@ -42,6 +42,7 @@ class NewsPostServiceImplUTest {
 
         verify(newsPostRepo, times(1)).findAll();
     }
+
     @Test
     void givenNoNewsPosts_getAllNews_ReturnsEmptyList() {
         when(newsPostRepo.findAll()).thenReturn(List.of());
@@ -51,6 +52,7 @@ class NewsPostServiceImplUTest {
 
         verify(newsPostRepo, times(1)).findAll();
     }
+
     @Test
     void givenCorrectForm_createNewsPost_ShouldCreatePost() {
         GuidePostForm guidePostForm = new GuidePostForm();
@@ -65,6 +67,7 @@ class NewsPostServiceImplUTest {
         assertThat(newsPostRepo).isNotNull();
         assertThat(newsPostRepo.findBySlug("title")).isEqualTo(newPost);
     }
+
     @Test
     void givenForm_EmptyTitle_createNewsPost_ShouldThrowException() {
         GuidePostForm guidePostForm = new GuidePostForm();
@@ -72,6 +75,7 @@ class NewsPostServiceImplUTest {
 
         assertThrows(GuideFormTitleIsEmptyException.class, () -> newsPostServiceImpl.createNewsPost(guidePostForm));
     }
+
     @Test
     void givenForm_BlankTitle_createNewsPost_ShouldThrowException() {
         GuidePostForm guidePostForm = new GuidePostForm();
@@ -79,6 +83,7 @@ class NewsPostServiceImplUTest {
 
         assertThrows(GuideFormTitleIsEmptyException.class, () -> newsPostServiceImpl.createNewsPost(guidePostForm));
     }
+
     @Test
     void givenForm_EmptyOrNullContent_createNewsPost_ShouldThrowException() {
         GuidePostForm guidePostForm = new GuidePostForm();
@@ -86,6 +91,7 @@ class NewsPostServiceImplUTest {
 
         assertThrows(GuideFormTitleIsEmptyException.class, () -> newsPostServiceImpl.createNewsPost(guidePostForm));
     }
+
     @Test
     void givenForm_BlankOrNullContent_createNewsPost_ShouldThrowException() {
         GuidePostForm guidePostForm = new GuidePostForm();
@@ -93,6 +99,7 @@ class NewsPostServiceImplUTest {
 
         assertThrows(GuideFormTitleIsEmptyException.class, () -> newsPostServiceImpl.createNewsPost(guidePostForm));
     }
+
     @Test
     void givenOneNewsPost_getNewsPostBySlug_ReturnsNewsPost() {
         NewsPost post = NewsPost.builder()
@@ -107,6 +114,7 @@ class NewsPostServiceImplUTest {
 
         verify(newsPostRepo, times(2)).findBySlug("title");
     }
+
     @Test
     void givenWrongNewsPost_getNewsPostBySlug_shouldThrowException() {
         NewsPost post = NewsPost.builder()
@@ -117,6 +125,7 @@ class NewsPostServiceImplUTest {
 
         assertThrows(NewsDoesNotExistException.class, () -> newsPostServiceImpl.getNewsPostBySlug("title"));
     }
+
     @Test
     void givenSixNewsPosts_findLastFive_ReturnLastFive_SortedByDateDesc() {
         NewsPost newsPost1 = NewsPost.builder().createdOn(LocalDateTime.now().minusDays(6)).build();
@@ -138,6 +147,7 @@ class NewsPostServiceImplUTest {
 
         verify(newsPostRepo, times(3)).findAll();
     }
+
     @Test
     void givenThreeNewsPosts_getAllNewsPostsReversed_ReturnsThreeNewsPosts_SortedByDateDesc() {
         NewsPost newsPost1 = NewsPost.builder().createdOn(LocalDateTime.now().minusDays(6)).build();

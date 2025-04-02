@@ -19,12 +19,11 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import static org.assertj.core.api.Assertions.assertThat;
-
 import java.time.LocalDateTime;
 import java.util.*;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -63,6 +62,7 @@ class ProfileServiceImplUTest {
         assertThat(savedProfile.getStatus()).isEqualTo(AccountStatus.ACTIVE);
         assertThat(savedProfile.getCreatedOn()).isNotNull();
     }
+
     @Test
     void givenUserToRegisterInvalidUsernameShort_whenRegister_thenExpectException() {
         // Given
@@ -77,6 +77,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterEmptyUsername_whenRegister_thenExpectException() {
         // Given
@@ -91,6 +92,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterBlankUsername_whenRegister_thenExpectException() {
         // Given
@@ -105,6 +107,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidUsernameLong_whenRegister_thenExpectException() {
         // Given
@@ -119,6 +122,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidPasswordShort_whenRegister_thenExpectException() {
         // Given
@@ -133,6 +137,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidPasswordEmpty_whenRegister_thenExpectException() {
         // Given
@@ -147,6 +152,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidPasswordBlank_whenRegister_thenExpectException() {
         // Given
@@ -161,6 +167,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidEmail_whenRegister_thenExpectException() {
         // Given
@@ -175,6 +182,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidEmailEmpty_whenRegister_thenExpectException() {
         // Given
@@ -189,6 +197,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidEmailBlank_whenRegister_thenExpectException() {
         // Given
@@ -203,6 +212,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidConfirmPassword_whenRegister_thenExpectException() {
         // Given
@@ -217,6 +227,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidConfirmPasswordEmpty_whenRegister_thenExpectException() {
         // Given
@@ -231,6 +242,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void givenUserToRegisterInvalidConfirmPasswordBlank_whenRegister_thenExpectException() {
         // Given
@@ -245,6 +257,7 @@ class ProfileServiceImplUTest {
                 () -> profileService.registerProfile(username, rawPassword, email, confirmPassword)
         );
     }
+
     @Test
     void getAllProfiles_GivenTwoProfilesSavedToRepo_ThenExpectReturnOk() {
         //Given
@@ -281,6 +294,7 @@ class ProfileServiceImplUTest {
         assertThat(profiles).hasSize(2);
         assertThat(profiles).contains(profile1, profile2);
     }
+
     @Test
     void getAllProfilesReversed_GivenTwoProfilesSavedToRepo_ThenExpectReturnOk() {
         //Given
@@ -317,6 +331,7 @@ class ProfileServiceImplUTest {
         assertThat(profiles).hasSize(2);
         assertThat(profiles).contains(profile2, profile1);
     }
+
     @Test
     void givenCorrectUser_loginProfile_ShouldReturnOk() {
         Profile user = Profile.builder()
@@ -341,6 +356,7 @@ class ProfileServiceImplUTest {
 
         assertThat(loggedProfile).isEqualTo(user);
     }
+
     @Test
     void givenNonExistentUser_loginProfile_ShouldThrowException() {
         Profile user = Profile.builder()
@@ -362,6 +378,7 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileDoesNotExistException.class, () -> profileService.loginProfile(formLoginDTO));
     }
+
     @Test
     void givenUserWithWrongPassword_loginProfile_ShouldThrowException() {
         Profile user = Profile.builder()
@@ -384,6 +401,7 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileWrongPasswordException.class, () -> profileService.loginProfile(formLoginDTO));
     }
+
     @Test
     void givenUserWithDeactivatedAccount_loginProfile_ShouldThrowException() {
         Profile user = Profile.builder()
@@ -406,6 +424,7 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileDeactivatedException.class, () -> profileService.loginProfile(formLoginDTO));
     }
+
     @Test
     void givenUser_NewProfilePicture_NoNewRole_updateProfile_ShouldReturnOk() {
         UUID profileId = UUID.randomUUID();
@@ -426,6 +445,7 @@ class ProfileServiceImplUTest {
         assertThat(existingProfile.getProfilePicture()).isEqualTo("newPic.png");
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_NoNewProfilePictureEmpty_NoNewRole_updateProfile_ShouldReturnOk() {
         UUID profileId = UUID.randomUUID();
@@ -446,6 +466,7 @@ class ProfileServiceImplUTest {
         assertThat(existingProfile.getProfilePicture()).isEqualTo("oldPic.png");
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_NoNewProfilePicture_NewRole_updateProfile_ShouldReturnOk() {
         UUID profileId = UUID.randomUUID();
@@ -466,6 +487,7 @@ class ProfileServiceImplUTest {
         assertThat(existingProfile.getRole()).isEqualTo(AccountRole.ADMIN);
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_NoNewProfilePictureNull_NoNewRole_updateProfile_ShouldReturnOk() {
         UUID profileId = UUID.randomUUID();
@@ -486,6 +508,7 @@ class ProfileServiceImplUTest {
         assertThat(existingProfile.getRole()).isEqualTo(AccountRole.USER);
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_SupportPage_updateProfileRole_Uncommon() {
         UUID profileId = UUID.randomUUID();
@@ -502,6 +525,7 @@ class ProfileServiceImplUTest {
 
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_SupportPage_updateProfileRole_Rare() {
         UUID profileId = UUID.randomUUID();
@@ -518,6 +542,7 @@ class ProfileServiceImplUTest {
 
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_SupportPage_updateProfileRole_Epic() {
         UUID profileId = UUID.randomUUID();
@@ -534,6 +559,7 @@ class ProfileServiceImplUTest {
 
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_SupportPage_updateProfileRole_Legendary() {
         UUID profileId = UUID.randomUUID();
@@ -550,6 +576,7 @@ class ProfileServiceImplUTest {
 
         verify(profileRepo).save(existingProfile);
     }
+
     @Test
     void givenUser_getProfileById_ShouldReturnOk() {
         Profile user = Profile.builder()
@@ -573,6 +600,7 @@ class ProfileServiceImplUTest {
 
         assertThat(profileRepo.findById(profile.getId()).isPresent());
     }
+
     @Test
     void givenNonExistentUser_getProfileById_ShouldReturnException() {
         Profile user = Profile.builder()
@@ -594,6 +622,7 @@ class ProfileServiceImplUTest {
 
         assertThrows(LoginProfileDoesNotExistException.class, () -> profileService.getProfileById(user.getId()));
     }
+
     @Test
     void givenExistingEmail_loadUserByUsername_ShouldReturnUserDetails() {
         Profile user = Profile.builder()
@@ -621,6 +650,7 @@ class ProfileServiceImplUTest {
 
         assertThat(authorities).contains(new SimpleGrantedAuthority("ROLE_USER"));
     }
+
     @Test
     void givenNonExistingEmail_loadUserByUsername_ShouldThrowException() {
         String email = "nonexistent@example.com";
@@ -629,14 +659,16 @@ class ProfileServiceImplUTest {
 
         assertThrows(UsernameNotFoundException.class, () -> profileService.loadUserByUsername(email));
     }
+
     @Test
     void getAllRoles_ShouldReturnAllRoles() {
         List<AccountRole> roles = profileService.getAllRoles();
 
         assertThat(roles).containsExactly(AccountRole.values());
     }
+
     @Test
-    void givenTwoUsers_SearchUsers_CorrectWord_ReturnsUserWithContainedWord(){
+    void givenTwoUsers_SearchUsers_CorrectWord_ReturnsUserWithContainedWord() {
         String input = "tige";
         Profile profile1 = Profile.builder().id(UUID.randomUUID()).username("RedTiger52").build();
         Profile profile2 = Profile.builder().id(UUID.randomUUID()).username("OpalNeon61").build();
@@ -651,8 +683,9 @@ class ProfileServiceImplUTest {
         assertThat(returnedProfiles.get(0).getUsername()).isEqualTo("RedTiger52");
         verify(profileRepo, times(1)).findByUsernameContainingIgnoreCase(input);
     }
+
     @Test
-    void givenTwoUsers_SearchUsers_NonCorrectWord_ReturnsNoUsers(){
+    void givenTwoUsers_SearchUsers_NonCorrectWord_ReturnsNoUsers() {
         String input = "tige";
 
         List<Profile> mockProfiles = List.of();
@@ -664,8 +697,9 @@ class ProfileServiceImplUTest {
         assertThat(returnedProfiles).hasSize(0);
         verify(profileRepo, times(1)).findByUsernameContainingIgnoreCase(input);
     }
+
     @Test
-    void givenTwoUsers_SearchUsers_GIVEALLPROFILES_ReturnsAllUsers(){
+    void givenTwoUsers_SearchUsers_GIVEALLPROFILES_ReturnsAllUsers() {
         String input = "GIVEALLPROFILES";
 
         Profile profile1 = Profile.builder().id(UUID.randomUUID()).username("RedTiger52").build();

@@ -14,22 +14,17 @@ import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ForumPostFor
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.UUID;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -76,6 +71,7 @@ class ForumControllerAPITest {
                 .andExpect(model().attributeExists("forumPosts"))
                 .andExpect(view().name("forum"));
     }
+
     @Test
     void getAuthenticated_getForumCreatePost_ReturnsForumCreatePost() throws Exception {
         MockHttpServletRequestBuilder request = get("/forum/create-post")
@@ -88,6 +84,7 @@ class ForumControllerAPITest {
                 .andExpect(model().attributeExists("forumPostForm"))
                 .andExpect(view().name("createForumPost"));
     }
+
     @Test
     void getAuthenticated_getForumCreatePost_POST_ReturnsForums_IfSuccess() throws Exception {
         MockHttpServletRequestBuilder request = post("/forum/create-post/create")
@@ -116,6 +113,7 @@ class ForumControllerAPITest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/forum"));
     }
+
     @Test
     void getAuthenticated_getForumPosts_returnsForumPosts() throws Exception {
         String slug = "title";
@@ -147,6 +145,7 @@ class ForumControllerAPITest {
                 .andExpect(view().name("forumPost"))
                 .andExpect(content().string(containsString("<title>R&D - Forum - title</title>")));
     }
+
     @Test
     void getAuthenticated_getForumPosts_POST_createForumComment() throws Exception {
         String slug = "title";

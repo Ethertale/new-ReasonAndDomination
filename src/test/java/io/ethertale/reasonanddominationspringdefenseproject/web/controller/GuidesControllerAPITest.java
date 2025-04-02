@@ -17,7 +17,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
@@ -42,6 +41,7 @@ class GuidesControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getUnauthenticatedRequestToGuideCreateGuide_Redirect() throws Exception {
         MockHttpServletRequestBuilder request = get("/guides/create-guide");
@@ -51,6 +51,7 @@ class GuidesControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getUnauthenticatedRequestToGuidePost_Redirect() throws Exception {
         MockHttpServletRequestBuilder request = get("/posts/{slug}", "slug");
@@ -83,6 +84,7 @@ class GuidesControllerAPITest {
 
         verify(guidePostService, times(1)).getAllGuidePosts();
     }
+
     @Test
     void getAuthenticatedRequestToCreateGuidePage_ReturnCreateGuidePage() throws Exception {
         MockHttpServletRequestBuilder request = get("/guides/create-guide")
@@ -96,6 +98,7 @@ class GuidesControllerAPITest {
                 .andExpect(model().attributeExists("guidePostForm"))
                 .andExpect(model().attributeExists("postTypes"));
     }
+
     @Test
     void getAuthenticatedRequestToCreateGuide_POST_RedirectToGuidesPage() throws Exception {
         GuidePostForm mockedForm = new GuidePostForm();
@@ -122,6 +125,7 @@ class GuidesControllerAPITest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/guides"));
     }
+
     @Test
     void getAuthenticated_getGuidePost_ReturnGuidePost() throws Exception {
         String slug = "title";

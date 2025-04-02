@@ -1,6 +1,5 @@
 package io.ethertale.reasonanddominationspringdefenseproject.forumPost.service;
 
-import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.repo.ForumPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
@@ -17,11 +16,10 @@ import java.time.LocalDateTime;
 import java.time.Month;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 @ExtendWith(MockitoExtension.class)
@@ -50,6 +48,7 @@ class ForumPostServiceImplUTest {
 
         assertEquals(2, allForumPosts.size());
     }
+
     @Test
     void givenZeroPosts_getAllForumPosts_shouldReturnZeroPosts() {
         when(forumPostRepo.findAll()).thenReturn(List.of());
@@ -58,6 +57,7 @@ class ForumPostServiceImplUTest {
 
         assertEquals(0, allForumPosts.size());
     }
+
     @Test
     void givenTwoPosts_getAllForumPostsReversed_shouldReturnTwoPostsReversed() {
         ForumPost forumPost1 = ForumPost.builder().id(UUID.randomUUID()).createdOn(LocalDateTime.of(2017, Month.FEBRUARY, 12, 10, 30)).build();
@@ -74,6 +74,7 @@ class ForumPostServiceImplUTest {
         assertEquals(forumPost1, allForumPostsReversed.get(1));
         assertEquals(forumPost2, allForumPostsReversed.get(0));
     }
+
     @Test
     void givenSinglePost_getForumPostBySlug_shouldReturnPostBySlug() {
         String slug = "slugtest";
@@ -115,6 +116,7 @@ class ForumPostServiceImplUTest {
 
         verify(forumPostRepo, times(1)).save(any(ForumPost.class));
     }
+
     @Test
     void givenSixPosts_findLastFive_shouldReturnLastFivePosts() {
         ForumPost forumPost1 = ForumPost.builder().id(UUID.randomUUID()).createdOn(LocalDateTime.of(2017, Month.FEBRUARY, 12, 10, 30)).build();
@@ -149,6 +151,7 @@ class ForumPostServiceImplUTest {
     @Test
     void addCommentToPost() {
     }
+
     @Test
     void givenThreeComments_getCommentsSortedAsc_ShouldReturnCommentsAsc() {
         String slug = "posttest";

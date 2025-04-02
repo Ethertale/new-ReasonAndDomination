@@ -23,7 +23,6 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
@@ -54,6 +53,7 @@ class HomeControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getUnauthenticatedRequestToAboutUsPage_Redirect() throws Exception {
         MockHttpServletRequestBuilder request = get("/home/about-us");
@@ -63,6 +63,7 @@ class HomeControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getUnauthenticatedRequestTo404Page_Redirect() throws Exception {
         MockHttpServletRequestBuilder request = get("/home/redirect-to-404-page");
@@ -72,6 +73,7 @@ class HomeControllerAPITest {
                 .andExpect(redirectedUrlPattern("**/login"));
 
     }
+
     @Test
     void getAuthenticatedRequestToHome_ReturnHomeView() throws Exception {
         Profile mockedUser = Profile.builder()
@@ -128,6 +130,7 @@ class HomeControllerAPITest {
                 .andExpect(model().attributeExists("arenaS3Guides"))
                 .andExpect(view().name("index"));
     }
+
     @Test
     void getAuthenticatedRequestToHome_DeactivatedAccount_RedirectToLogin() throws Exception {
         Profile mockedUser = Profile.builder()
@@ -148,6 +151,7 @@ class HomeControllerAPITest {
                 .andExpect(status().is3xxRedirection())
                 .andExpect(redirectedUrl("/login?error"));
     }
+
     @Test
     void getAuthenticatedRequestToAboutUsPage_ReturnAboutUsPage() throws Exception {
         MockHttpServletRequestBuilder request = get("/home/about-us")

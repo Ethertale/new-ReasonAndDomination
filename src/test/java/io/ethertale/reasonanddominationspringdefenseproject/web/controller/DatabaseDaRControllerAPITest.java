@@ -7,7 +7,6 @@ import io.ethertale.reasonanddominationspringdefenseproject.heroRace.service.Her
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.Item;
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemRarity;
 import io.ethertale.reasonanddominationspringdefenseproject.item.model.ItemType;
-import io.ethertale.reasonanddominationspringdefenseproject.item.repo.ItemRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.item.service.ItemService;
 import io.ethertale.reasonanddominationspringdefenseproject.security.AuthenticationDetails;
 import io.ethertale.reasonanddominationspringdefenseproject.web.dto.ItemDTO;
@@ -28,7 +27,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
 @WebMvcTest(controllers = DatabaseDaRController.class)
 class DatabaseDaRControllerAPITest {
@@ -62,6 +60,7 @@ class DatabaseDaRControllerAPITest {
         verify(heroRaceService, never()).getAllHeroRaces();
         verify(itemService, never()).getAllItems();
     }
+
     @Test
     @WithMockUser(username = "admin", authorities = "ADMIN")
     void getAuthenticatedRequestToDatabase_Admin_ReturnDatabase() throws Exception {
@@ -81,6 +80,7 @@ class DatabaseDaRControllerAPITest {
         verify(heroRaceService, times(1)).getAllHeroRaces();
         verify(itemService, times(1)).getAllItems();
     }
+
     @Test
     void getUnauthenticatedRequestToDatabase_Redirect() throws Exception {
         MockHttpServletRequestBuilder request = get("/database-dar");
@@ -93,6 +93,7 @@ class DatabaseDaRControllerAPITest {
         verify(heroRaceService, never()).getAllHeroRaces();
         verify(itemService, never()).getAllItems();
     }
+
     @Test
     @WithMockUser(username = "admin", authorities = "ADMIN")
     void postAuthorizedRequest_createItem_Admin_ShouldCreateItem() throws Exception {
