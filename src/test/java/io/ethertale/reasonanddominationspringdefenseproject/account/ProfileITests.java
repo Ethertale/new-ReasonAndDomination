@@ -78,7 +78,6 @@ public class ProfileITests {
         String input = "tige";
         List<Profile> returnedProfiles = profileService.searchUsers(input);
 
-        // Then: Validate results
         assertThat(returnedProfiles).hasSize(1);
         assertThat(returnedProfiles.get(0).getUsername()).isEqualTo("RedTiger52");
     }
