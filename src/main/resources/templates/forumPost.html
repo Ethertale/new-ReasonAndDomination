@@ -23,6 +23,7 @@
 
 <div class="container border mt-5" th:object="${specPost}">
     <h2 th:text="${specPost.title}"></h2>
+    <span class="d-flex flex-row align-items-center"><img width="70px" th:src="${specPost.author.profilePicture}" alt=""><a th:href="'/profile/' + ${specPost.author.id}" class="ml-1" th:text="${specPost.author.username}"></a></span>
     <small th:text="${specPost.createdOn}"></small>
     <div class="container border-top">
         <p th:text="${specPost.content}"></p>
@@ -42,7 +43,7 @@
     <div class="container border d-flex flex-row">
         <div class="container d-flex justify-content-center flex-column align-items-center col-2">
             <a th:href="@{'/profile/' + ${comment.owner.id}}"><h5 th:text="${comment.owner.username}"></h5></a>
-            <img class="img-fluid" style="width: 64px" th:src="${comment.owner.profilePicture}" alt="">
+            <img width="70px" th:src="${comment.owner.profilePicture}" alt="">
             <small th:if="${comment.owner.role.name()} == 'USER'">USER</small>
             <small style="color: green" th:if="${comment.owner.role.name()} == 'TIER_UNCOMMON'">UNCOMMON</small>
             <small style="color: royalblue;" th:if="${comment.owner.role.name()} == 'TIER_RARE'">RARE</small>

@@ -15,6 +15,7 @@
 <div class="container">
     <h1>Create Post</h1>
     <form th:method="post" th:object="${forumPostForm}" th:action="@{/forum/create-post/create}">
+        <input type="hidden" th:field="*{creatorId}">
         <div class="form-group">
             <label for="postTitle">Title</label>
             <input required th:field="*{title}" type="text" class="form-control" id="postTitle" placeholder="Title">

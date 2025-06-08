@@ -13,6 +13,7 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -64,8 +65,8 @@ public class ForumPostServiceITest {
     @Test
     void testGetAllForumPosts() {
         // Given
-        forumPostService.createForumPost(new ForumPostForm("Post 1", "Content 1"));
-        forumPostService.createForumPost(new ForumPostForm("Post 2", "Content 2"));
+        forumPostService.createForumPost(new ForumPostForm("Post 1", "Content 1", UUID.randomUUID()));
+        forumPostService.createForumPost(new ForumPostForm("Post 2", "Content 2", UUID.randomUUID()));
 
         // When
         List<ForumPost> posts = forumPostService.getAllForumPosts();

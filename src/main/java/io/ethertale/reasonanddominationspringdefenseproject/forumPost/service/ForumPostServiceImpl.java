@@ -1,6 +1,7 @@
 package io.ethertale.reasonanddominationspringdefenseproject.forumPost.service;
 
 import io.ethertale.reasonanddominationspringdefenseproject.account.model.Profile;
+import io.ethertale.reasonanddominationspringdefenseproject.account.repo.ProfileRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.model.ForumPost;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPost.repo.ForumPostRepo;
 import io.ethertale.reasonanddominationspringdefenseproject.forumPostContent.model.ForumPostContent;
@@ -20,12 +21,14 @@ public class ForumPostServiceImpl implements ForumPostService {
     private final ForumPostRepo forumPostRepo;
     private final ForumPostContentRepo forumPostContentRepo;
     private final ForumPostContentServiceImpl forumPostContentService;
+    private final ProfileRepo profileRepo;
 
     @Autowired
-    public ForumPostServiceImpl(ForumPostRepo forumPostRepo, ForumPostContentRepo forumPostContentRepo, ForumPostContentServiceImpl forumPostContentService) {
+    public ForumPostServiceImpl(ForumPostRepo forumPostRepo, ForumPostContentRepo forumPostContentRepo, ForumPostContentServiceImpl forumPostContentService, ProfileRepo profileRepo) {
         this.forumPostRepo = forumPostRepo;
         this.forumPostContentRepo = forumPostContentRepo;
         this.forumPostContentService = forumPostContentService;
+        this.profileRepo = profileRepo;
     }
 
     @Override
@@ -49,6 +52,7 @@ public class ForumPostServiceImpl implements ForumPostService {
                 .title(forumPostForm.getTitle())
                 .content(forumPostForm.getContent())
                 .createdOn(LocalDateTime.now())
+                .author(profileRepo.getProfileById(forumPostForm.getCreatorId()))
                 .build();
 
         forumPost.setSlug(forumPost.getTitle());
