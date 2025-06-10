@@ -15,6 +15,12 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import javax.imageio.ImageIO;
+import java.awt.*;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.time.LocalDateTime;
 import java.util.Comparator;
 import java.util.List;
@@ -110,11 +116,25 @@ public class ProfileServiceImpl implements ProfileService, UserDetailsService {
     public void updateProfile(EditProfile editProfile, Profile details) {
         Profile profileToEdit = profileRepo.getProfileById(details.getId());
 
-        if (editProfile.getProfilePicture() == null || editProfile.getProfilePicture().isBlank()) {
-            profileToEdit.setProfilePicture(details.getProfilePicture());
-        } else {
-            profileToEdit.setProfilePicture(editProfile.getProfilePicture());
+//        if (editProfile.getProfilePicture() == null || editProfile.getProfilePicture().isBlank()) {
+//            profileToEdit.setProfilePicture(details.getProfilePicture());
+//        } else {
+//            profileToEdit.setProfilePicture(editProfile.getProfilePicture());
+//        }
+
+        try {
+            Image image = ImageIO.read(new URL(editProfile.getProfilePicture()));
+            if (image != null) {
+                profileToEdit.setProfilePicture(editProfile.getProfilePicture());
+            } else {
+                profileToEdit.setProfilePicture("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg");
+            }
+        } catch (MalformedURLException e) {
+            profileToEdit.setProfilePicture("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg");
+        } catch (IOException e) {
+            profileToEdit.setProfilePicture("https://static.vecteezy.com/system/resources/previews/009/292/244/non_2x/default-avatar-icon-of-social-media-user-vector.jpg");
         }
+
 
         if (editProfile.getRole() == null) {
             profileToEdit.setRole(profileToEdit.getRole());
