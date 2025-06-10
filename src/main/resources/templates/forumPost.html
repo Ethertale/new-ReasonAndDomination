@@ -37,7 +37,7 @@
             <div class="col-9">
                 <div class="row">
                     <div class="col-6">
-                        <a th:href="'/profile/' + ${specPost.author.id}"><h5 th:text="${specPost.author.username}"></h5></a>
+                        <span class="d-flex flex-row"><a th:href="'/profile/' + ${specPost.author.id}"><h5 th:text="${specPost.author.username}"></h5></a><small class="ml-2" th:text="${specPost.author.posts.size()} + ' posts'"></small></span>
                         <small th:text="${specPost.author.role}"></small>
                         <hr>
                     </div>
