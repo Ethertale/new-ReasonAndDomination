@@ -34,14 +34,14 @@
             <div class="col-12 col-lg-11 container-fluid d-flex align-items-center flex-column">
                 <img th:src="${user.getProfilePicture()}" style="width: 20%; max-width: 256px; min-width: 140px; aspect-ratio: 1/1" alt="">
                 <div class="container col-8 col-lg-3 d-flex flex-column align-items-left">
-                    <h3 th:text="${user.username}"></h3>
+                    <h3 class="text-center" th:text="${user.username}"></h3>
                     <small th:if="${user.getRole().name()} == 'USER'" ><span>Rank: </span><span th:text="'User'"></span></small>
                     <small th:if="${user.getRole().name()} == 'ADMIN'"><span>Rank: </span><span style="color: #d3a862" th:text="'ADMIN'"></span></small>
                     <small th:if="${user.getRole().name()} == 'TIER_UNCOMMON'"><span>Rank: </span><span style="color: green" th:text="'Uncommon'"></span></small>
                     <small th:if="${user.getRole().name()} == 'TIER_RARE'"><span>Rank: </span><span style="color: royalblue" th:text="'Rare'"></span></small>
                     <small th:if="${user.getRole().name()} == 'TIER_EPIC'"><span>Rank: </span><span style="color: rebeccapurple" th:text="'Epic'"></span></small>
                     <small th:if="${user.getRole().name()} == 'TIER_LEGENDARY'"><span>Rank: </span><span style="color: darkorange" th:text="'Legendary'"></span></small>
-                    <small th:text="${user.getId()}"></small>
+                    <small>ID: <small><small th:text="${user.getId()}"></small></small></small>
                     <small>Joined: <span th:text="${user.createdOn.dayOfMonth} + '/' + ${user.createdOn.monthValue} + '/' + ${user.createdOn.year}"></span></small>
                 </div>
             </div>
