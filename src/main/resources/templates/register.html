@@ -16,7 +16,7 @@
 </head>
 <body style="background-image: url('https://i.ibb.co/6g0crpd/background.png')">
 
-<div class="container d-flex flex-column justify-content-center align-content-center align-items-center col-4 p-2">
+<div class="container d-flex flex-column justify-content-center align-content-center align-items-center col-12 col-md-4 p-2">
     <img th:src="@{imgs/logo-textonly.png}" class="m-2" style="width: 15vw; pointer-events: none" alt="">
     <div class="container border rounded d-flex justify-content-center col-8 p-2">
         <form th:method="post" th:action="@{/register}" th:object="${formRegisterDTO}">
