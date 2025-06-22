@@ -23,7 +23,7 @@ public class GuidePost {
     private String title;
     @Column
     private String slug;
-    @Column
+    @Column(length = 30000)
     private String content;
     @Column
     private PostType type;

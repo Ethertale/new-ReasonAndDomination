@@ -25,7 +25,7 @@
 
 <div class="container">
     <h2>R&D General Forum</h2>
-    <a style="background-color: #d3a862" th:href="@{/forum/create-post}"><button class="btn">+ New Post</button></a>
+    <a style="background-color: #d3a862" th:href="@{/forum/create-post}"><button class="btn btn-warning">+ New Post</button></a>
     <div class="container d-flex flex-column">
         <table class="table">
             <thead>
@@ -40,8 +40,8 @@
                 <tbody>
                     <tr>
                         <td><a th:text="${post.getTitle()}" th:href="@{/forum/posts/{slug}(slug=${post.getSlug()})}"></a></td>
-                        <td><a href="#">PLACEHOLDER</a></td>
-                        <td th:text="${post.getComments().size()}"></td>
+                        <td><a th:text="${post.getAuthor().username}" th:href="@{/profile/{userId}(userId=${post.getAuthor().id})}"></a></td>
+                        <td><img width="24" height="24" th:src="@{/imgs/replies-img.png}" alt="topic--v1"/><span th:text="${post.getComments().size()}"></span></td>
                         <td th:text="${post.getCreatedOn()}"></td>
                     </tr>
                 </tbody>

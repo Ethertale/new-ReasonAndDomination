@@ -37,9 +37,12 @@ public class ForumController {
 
 
     @GetMapping("/create-post")
-    public ModelAndView post() {
+    public ModelAndView post(@AuthenticationPrincipal AuthenticationDetails authenticationDetails) {
+        ForumPostForm forumPostForm = new ForumPostForm();
+        forumPostForm.setCreatorId(authenticationDetails.getId());
+
         ModelAndView mav = new ModelAndView("createForumPost");
-        mav.addObject("forumPostForm", new ForumPostForm());
+        mav.addObject("forumPostForm", forumPostForm);
         mav.setViewName("createForumPost");
         return mav;
     }

@@ -25,7 +25,7 @@
 
 <div class="container">
     <h2>R&D Guides</h2>
-    <a style="background-color: #d3a862" th:if="${principal.name()} == 'ADMIN'" th:href="@{/news/create-news}"><button class="btn">+ New News Post</button></a>
+    <a style="background-color: #d3a862" th:if="${principal.name()} == 'ADMIN'" th:href="@{/news/create-news}"><button class="btn btn-warning">+ New News Post</button></a>
     <div class="container d-flex flex-column">
         <table class="table">
             <thead>

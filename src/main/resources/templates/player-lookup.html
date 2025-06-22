@@ -29,8 +29,16 @@
     <div class="row">
         <th:block th:each="profile: ${foundProfiles}">
             <div class="col-12 col-sm-6 col-md-4 col-lg-2">
-                <div class="container d-flex justify-content-center flex-column"></div>
-                <a class="d-flex flex-column justify-content-center align-items-center" th:href="@{'/profile/' + ${profile.getId()}}"><img style="width: 150px" th:src="${profile.getProfilePicture()}" alt=""><span th:text="${profile.getUsername()}"></span></a>
+                <div class="container d-flex justify-content-center flex-column align-items-center mb-2 border-bottom">
+                    <a class="d-flex flex-column justify-content-center align-items-center" th:href="@{'/profile/' + ${profile.getId()}}"><img style="width: 150px" th:src="${profile.getProfilePicture()}" alt=""></a>
+                    <span th:text="${profile.getUsername()}"></span>
+                    <small th:if="${profile.getRole().name()} == 'USER'" ><span>Rank: </span><span th:text="'User'"></span></small>
+                    <small th:if="${profile.getRole().name()} == 'ADMIN'"><span>Rank: </span><span style="color: #d3a862" th:text="'ADMIN'"></span></small>
+                    <small th:if="${profile.getRole().name()} == 'TIER_UNCOMMON'"><span>Rank: </span><span style="color: green" th:text="'Uncommon'"></span></small>
+                    <small th:if="${profile.getRole().name()} == 'TIER_RARE'"><span>Rank: </span><span style="color: royalblue" th:text="'Rare'"></span></small>
+                    <small th:if="${profile.getRole().name()} == 'TIER_EPIC'"><span>Rank: </span><span style="color: rebeccapurple" th:text="'Epic'"></span></small>
+                    <small th:if="${profile.getRole().name()} == 'TIER_LEGENDARY'"><span>Rank: </span><span style="color: darkorange" th:text="'Legendary'"></span></small>
+                </div>
             </div>
         </th:block>
     </div>
